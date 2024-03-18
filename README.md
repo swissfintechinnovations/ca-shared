@@ -1,5 +1,5 @@
+![ca-shared](https://github.com/swissfintechinnovations/ca-shared/assets/116151702/1b727cdd-f154-4dc6-84e2-e5fe205f1581)
 
-![ca-payment](https://user-images.githubusercontent.com/116151702/236237909-600006c8-79c7-4121-b469-29734316b531.png)
 
 
 ---
@@ -10,5 +10,5 @@
 
 This is a official SFTI repo. Documentations may be found in the [Wiki](https://github.com/swissfintechinnovations/ca-shared/wiki).
 
-This repo cover the following topics:
-- 
+This repository covers the following topics:
+- infastructure
