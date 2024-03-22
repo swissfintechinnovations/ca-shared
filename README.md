@@ -10,5 +10,5 @@
 
 This is a official SFTI repo. Documentations may be found in the [Wiki](https://github.com/swissfintechinnovations/ca-shared/wiki).
 
-This repository covers the following topics:
-- infastructure
+This repository addresses common APIs for cross-sectional topics:
+- .. 
