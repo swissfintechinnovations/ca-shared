@@ -12,3 +12,4 @@ This is a official SFTI repo. Documentations may be found in the [Wiki](https://
 
 This repository addresses common APIs for cross-sectional topics:
 - webhooks and aggregated polling ([Wiki](https://github.com/swissfintechinnovations/ca-shared/wiki))
+- directory services (Wiki to be created)
