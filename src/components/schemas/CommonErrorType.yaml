@@ -1,0 +1,14 @@
+title: Common Error Type
+type: string
+description: Error Types for commonErrorResponse. See Appendix for detailed information.
+example: /problems/TECHNICAL_ERROR
+enum:
+  - /problems/INVALID_PAYLOAD
+  - /problems/MALFORMED_PAYLOAD
+  - /problems/TECHNICAL_ERROR
+  - /problems/SUBSCRIPTION_NOT_FOUND
+  - /problems/INSUFFICIENT_PRIVILEGES
+  - /problems/INVALID_TOKEN
+  - /problems/SUBSCRIPTION_ALREADY_EXISTS
+  - /problems/TOO_MANY_REQUESTS
+  - /problems/METHOD_NOT_ALLOWED

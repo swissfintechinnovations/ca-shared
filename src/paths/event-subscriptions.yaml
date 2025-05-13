@@ -1,0 +1,81 @@
+get:
+  summary: Get event subscriptions
+  description: Get list of event subscriptions.
+  operationId: getEventSubscriptions
+  parameters:
+    - $ref: ../components/parameters/cursor.yaml
+    - $ref: ../components/parameters/limit.yaml
+    - $ref: ../components/parameters/correlation_in_header.yaml
+  tags:
+    - Event Subscription
+  responses:
+    '200':
+      description: List of EventSubscriptions
+      headers:
+        X-Correlation-ID:
+          $ref: ../components/headers/X-Correlation-ID.yaml
+        x-nextCursor:
+          $ref: ../components/headers/x-nextCursor.yaml
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/EventNotification.yaml
+    '400':
+      $ref: ../components/responses/standard400.yaml
+    '401':
+      $ref: ../components/responses/standard401.yaml
+    '403':
+      $ref: ../components/responses/standard403.yaml
+    '404':
+      $ref: ../components/responses/standard404.yaml
+    '500':
+      $ref: ../components/responses/standard500.yaml
+    '501':
+      $ref: ../components/responses/standard501.yaml
+    '503':
+      $ref: ../components/responses/standard503.yaml
+    '504':
+      $ref: ../components/responses/standard504.yaml
+post:
+  summary: Create event subscription
+  description: Create event subscription
+  operationId: createEventSubscription
+  parameters:
+    - $ref: ../components/parameters/correlation_in_header.yaml
+  tags:
+    - Event Subscription
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/EventSubscription.yaml
+  responses:
+    '201':
+      description: EventSubscription created
+      headers:
+        X-Correlation-ID:
+          $ref: ../components/headers/X-Correlation-ID.yaml
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/EventSubscription.yaml
+    '400':
+      $ref: ../components/responses/standard400.yaml
+    '401':
+      $ref: ../components/responses/standard401.yaml
+    '403':
+      $ref: ../components/responses/standard403.yaml
+    '404':
+      $ref: ../components/responses/standard404.yaml
+    '409':
+      $ref: ../components/responses/standard409.yaml
+    '500':
+      $ref: ../components/responses/standard500.yaml
+    '501':
+      $ref: ../components/responses/standard501.yaml
+    '503':
+      $ref: ../components/responses/standard503.yaml
+    '504':
+      $ref: ../components/responses/standard504.yaml

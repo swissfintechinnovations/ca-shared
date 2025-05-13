@@ -1,0 +1,106 @@
+parameters:
+  - $ref: ../components/parameters/eventSubscriptionId.yaml
+get:
+  summary: Get event subscription
+  description: Get event subscription by id.
+  parameters:
+    - $ref: ../components/parameters/correlation_in_header.yaml
+  operationId: getEventSubscription
+  tags:
+    - Event Subscription
+  responses:
+    '200':
+      description: EventSubscription
+      headers:
+        X-Correlation-ID:
+          $ref: ../components/headers/X-Correlation-ID.yaml
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/EventSubscription.yaml
+    '400':
+      $ref: ../components/responses/standard400.yaml
+    '401':
+      $ref: ../components/responses/standard401.yaml
+    '403':
+      $ref: ../components/responses/standard403.yaml
+    '404':
+      $ref: ../components/responses/standard404.yaml
+    '500':
+      $ref: ../components/responses/standard500.yaml
+    '501':
+      $ref: ../components/responses/standard501.yaml
+    '503':
+      $ref: ../components/responses/standard503.yaml
+    '504':
+      $ref: ../components/responses/standard504.yaml
+put:
+  summary: Update event subscription
+  description: Update event subscription.
+  operationId: updateEventSubscription
+  parameters:
+    - $ref: ../components/parameters/correlation_in_header.yaml
+  tags:
+    - Event Subscription
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/EventSubscription.yaml
+        example:
+          eventTypes:
+            - Order:Created
+            - Order:Partially_Filled
+          callbackUrl: /ttpAPI/notifications/order-placement/
+  responses:
+    '204':
+      description: Successfully updated (empty response)
+      headers:
+        X-Correlation-ID:
+          $ref: ../components/headers/X-Correlation-ID.yaml
+    '400':
+      $ref: ../components/responses/standard400.yaml
+    '401':
+      $ref: ../components/responses/standard401.yaml
+    '403':
+      $ref: ../components/responses/standard403.yaml
+    '404':
+      $ref: ../components/responses/standard404.yaml
+    '500':
+      $ref: ../components/responses/standard500.yaml
+    '501':
+      $ref: ../components/responses/standard501.yaml
+    '503':
+      $ref: ../components/responses/standard503.yaml
+    '504':
+      $ref: ../components/responses/standard504.yaml
+delete:
+  summary: Delete event subscription
+  description: Delete event subscription by id.
+  operationId: deleteEventSubscription
+  parameters:
+    - $ref: ../components/parameters/correlation_in_header.yaml
+  tags:
+    - Event Subscription
+  responses:
+    '204':
+      description: Successfully deleted
+      headers:
+        X-Correlation-ID:
+          $ref: ../components/headers/X-Correlation-ID.yaml
+    '400':
+      $ref: ../components/responses/standard400.yaml
+    '401':
+      $ref: ../components/responses/standard401.yaml
+    '403':
+      $ref: ../components/responses/standard403.yaml
+    '404':
+      $ref: ../components/responses/standard404.yaml
+    '500':
+      $ref: ../components/responses/standard500.yaml
+    '501':
+      $ref: ../components/responses/standard501.yaml
+    '503':
+      $ref: ../components/responses/standard503.yaml
+    '504':
+      $ref: ../components/responses/standard504.yaml
