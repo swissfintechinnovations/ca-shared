@@ -2,9 +2,8 @@ openapi: 3.0.0
 info:
   version: 1.0.0
   title: event-notification webhook
-  description: >
-    This is the specification of the 'event-notification' webhook.
-    Disclaimer:
+  description: |
+    This is the specification of the 'event-notification' webhook. Disclaimer:
       - This specification file is to be interpreted as pseudo-code
       - once the structure and endpoints are agreed<
         * all mandatory and optional headers will have to be added
@@ -18,13 +17,15 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: https://webhook-notification.common-api.ch
+security: []
 paths:
   /event-notifications:
     post:
-      description: Send notification
+      summary: Send notification
+      description: Send notification to consumer.
+      operationId: sendEventNotification
       parameters:
         - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/api_version_in_header'
         - $ref: '#/components/parameters/event_type_in_header'
         - $ref: '#/components/parameters/event_id_in_header'
         - $ref: '#/components/parameters/event_created_in_header'
@@ -63,21 +64,13 @@ components:
     correlation_in_header:
       name: X-Correlation-ID
       in: header
-      description: >-
+      description: |
         Unique ID (defined by the caller) which will be reflected back in the
         response.
       required: true
       schema:
         type: string
         maxLength: 64
-    api_version_in_header:
-      name: X-CorApi-API-Version
-      in: header
-      description: The API Version
-      example: '1.0'
-      required: false
-      schema:
-        type: string
     event_type_in_header:
       name: X-CorApi-Event-Type
       in: header
@@ -111,16 +104,15 @@ components:
       required: false
       schema:
         type: string
-  headers:
-    X-Correlation-ID:
-      description: >-
-        Client defined ID from request to correlate HTTP requests between a
-        client and a server
-      schema:
-        type: string
-        maxLength: 64
-        example: f058ebd6-02f7-4d3f-942e-904344e8cde5
   schemas:
+    EventSubscriptionId:
+      type: string
+      readOnly: true
+      maxLength: 36
+      example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+    EventNotificationId:
+      type: string
+      example: 120066c9-58a1-432b-aa60-712fae7f143e
     EventNotification:
       type: object
       properties:
@@ -131,24 +123,36 @@ components:
           type: string
           example: Order:Partially_Filled
         eventSubscriptionId:
-          type: string
-          example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+          $ref: '#/components/schemas/EventSubscriptionId'
         resourceLink:
           type: string
           example: /api/bankingservices/b-link/order-placement/v1/orders/abcd1234
         createdAt:
           type: string
-          format: date-time
           example: 2022-10-26T07:58:30.996+0100
         id:
-          type: string
-          example: 120066c9-58a1-432b-aa60-712fae7f143e
-    commonErrorResponse:
+          $ref: '#/components/schemas/EventNotificationId'
+    CommonErrorType:
+      title: Common Error Type
+      type: string
+      description: Error Types for commonErrorResponse. See Appendix for detailed information.
+      example: /problems/TECHNICAL_ERROR
+      enum:
+        - /problems/INVALID_PAYLOAD
+        - /problems/MALFORMED_PAYLOAD
+        - /problems/TECHNICAL_ERROR
+        - /problems/SUBSCRIPTION_NOT_FOUND
+        - /problems/INSUFFICIENT_PRIVILEGES
+        - /problems/INVALID_TOKEN
+        - /problems/SUBSCRIPTION_ALREADY_EXISTS
+        - /problems/TOO_MANY_REQUESTS
+        - /problems/METHOD_NOT_ALLOWED
+    CommonErrorResponse:
       title: Common Error Response
       type: object
       properties:
         type:
-          $ref: '#/components/schemas/commonErrorType'
+          $ref: '#/components/schemas/CommonErrorType'
         title:
           type: string
           example: This is the general problem description
@@ -158,23 +162,15 @@ components:
         instance:
           type: string
           example: path/to/corresponding/resource
-    commonErrorType:
-      title: Common Error Type
-      type: string
-      description: >-
-        Error Types for commonErrorResponse. See Appendix for detailed
-        information.
-      example: /problems/TECHNICAL_ERROR
-      enum:
-        - /problems/INVALID_PAYLOAD
-        - /problems/MALFORMED_PAYLOAD
-        - /problems/TECHNICAL_ERROR
-        - /problems/FILE_NOT_FOUND
-        - /problems/SUBSCRIPTION_NOT_FOUND
-        - /problems/INSUFFICIENT_PRIVILEGES
-        - /problems/SUBSCRIPTION_ALREADY_EXISTS
-        - /problems/TOO_MANY_REQUESTS
-        - /problems/METHOD_NOT_ALLOWED
+  headers:
+    X-Correlation-ID:
+      description: |
+        Client defined ID from request to correlate HTTP requests between a
+        client and a server
+      schema:
+        type: string
+        maxLength: 64
+        example: f058ebd6-02f7-4d3f-942e-904344e8cde5
   responses:
     standard400:
       headers:
@@ -184,7 +180,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/INVALID_PAYLOAD
             title: the request body was invalid
@@ -194,13 +190,13 @@ components:
       headers:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: >-
+      description: |
         Not Found - Either the endpoint does not exist or a requested resource
         is not available
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/SUBSCRIPTION_NOT_FOUND
             title: resource not found
@@ -210,13 +206,13 @@ components:
       headers:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: >-
+      description: |
         Method Not Allowed - The request method is known by the server but is
         not supported by the target resource
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/METHOD_NOT_ALLOWED
             title: method not allowed
@@ -226,20 +222,19 @@ components:
       headers:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: >
-        When an SP (in the role of the notification sender) sends too many
-        notification requests in a given amount of time the SU (in the role of
-        the notification recipient) shall 
+      description: |
+        When an SU sends too many lookup or polling requests in a given amount
+        of time the SP shall 
 
         respond with HTTP 429 (Too many requests). This response may contain a
         Retry-After header 
 
-        indicating how long the SP must wait before making a new request. (see
+        indicating how long the SU must wait before making a new request. (see
         https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429).
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/TOO_MANY_REQUESTS
             title: resource not found
@@ -253,7 +248,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/TECHNICAL_ERROR
             title: unexpected error occurred
@@ -263,13 +258,13 @@ components:
       headers:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: >-
+      description: |
         Not Implemented - The request method is not supported by the server and
         cannot be handled.
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/TECHNICAL_ERROR
             title: unexpected error occurred
@@ -283,7 +278,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/TECHNICAL_ERROR
             title: server unavailable
@@ -297,7 +292,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/TECHNICAL_ERROR
             title: server unavailable

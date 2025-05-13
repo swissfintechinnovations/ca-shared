@@ -11,19 +11,17 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: https://webhook-notification.common-api.ch
+security: []
 paths:
   /event-subscriptions:
     get:
-      description: Get list of EventSubscriptions
+      summary: Get event subscriptions
+      description: Get list of event subscriptions.
+      operationId: getEventSubscriptions
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/targetid_in_header'
-        - $ref: '#/components/parameters/psu_ip_in_header'
-        - $ref: '#/components/parameters/psu_user_agent_in_header'
       tags:
         - Event Subscription
       responses:
@@ -37,7 +35,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventSubscriptions'
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventNotification'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -55,14 +55,11 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
     post:
-      description: Create EventSubscription
+      summary: Create event subscription
+      description: Create event subscription
+      operationId: createEventSubscription
       parameters:
-        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/targetid_in_header'
-        - $ref: '#/components/parameters/psu_ip_in_header'
-        - $ref: '#/components/parameters/psu_user_agent_in_header'
       tags:
         - Event Subscription
       requestBody:
@@ -80,15 +77,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventSubscription'
-          links:
-            GetSubscriptionById:
-              description: >
-                The `eventSubscriptionId` value returned in the response can be
-                used as the `eventSubscriptionId` parameter in `GET
-                /event-subscriptions/{eventSubscriptionId}`.
-              operationId: getEventSubscription
-              parameters:
-                documentId: $response.body#/eventSubscriptionId
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -109,16 +97,11 @@ paths:
           $ref: '#/components/responses/standard504'
   /event-subscriptions/search:
     get:
-      summary: Search for EventSubscriptionIds with pending events
-      description: >-
-        Search for EventSubscriptionIds with events that are newer than the
-        specified parameters
+      summary: Search for event subscriptionIds with pending events
+      description: Search for EventSubscriptionIds with events that are newer than the specified parameters.
+      operationId: searchEventSubscription
       parameters:
         - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/targetid_in_header'
-        - $ref: '#/components/parameters/psu_ip_in_header'
-        - $ref: '#/components/parameters/psu_user_agent_in_header'
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/fromEventDate'
@@ -126,9 +109,7 @@ paths:
         - Event Subscription
       responses:
         '200':
-          description: >-
-            EventSubscriptionIds with events that are newer than the specified
-            parameters
+          description: EventSubscriptionIds with events that are newer than the specified parameters
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -137,7 +118,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/subscriptionSearchResponse'
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventSubscription'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -158,14 +141,10 @@ paths:
     parameters:
       - $ref: '#/components/parameters/eventSubscriptionId'
     get:
-      description: Get EventSubscription
+      summary: Get event subscription
+      description: Get event subscription by id.
       parameters:
-        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/targetid_in_header'
-        - $ref: '#/components/parameters/psu_ip_in_header'
-        - $ref: '#/components/parameters/psu_user_agent_in_header'
       operationId: getEventSubscription
       tags:
         - Event Subscription
@@ -196,14 +175,11 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
     put:
-      description: Change EventSubscription
+      summary: Update event subscription
+      description: Update event subscription.
+      operationId: updateEventSubscription
       parameters:
-        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/targetid_in_header'
-        - $ref: '#/components/parameters/psu_ip_in_header'
-        - $ref: '#/components/parameters/psu_user_agent_in_header'
       tags:
         - Event Subscription
       requestBody:
@@ -239,14 +215,11 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
     delete:
-      description: Delete EventSubscription
+      summary: Delete event subscription
+      description: Delete event subscription by id.
+      operationId: deleteEventSubscription
       parameters:
-        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/targetid_in_header'
-        - $ref: '#/components/parameters/psu_ip_in_header'
-        - $ref: '#/components/parameters/psu_user_agent_in_header'
       tags:
         - Event Subscription
       responses:
@@ -278,14 +251,11 @@ paths:
       - $ref: '#/components/parameters/cursor'
       - $ref: '#/components/parameters/limit'
     get:
-      description: Get aggregated event-notification list
+      summary: Get event notifications list
+      description: Get aggregated event-notification list.
+      operationId: getEventNotifications
       parameters:
-        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/targetid_in_header'
-        - $ref: '#/components/parameters/psu_ip_in_header'
-        - $ref: '#/components/parameters/psu_user_agent_in_header'
       tags:
         - Event Notifications
       responses:
@@ -299,7 +269,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AggregatedEventNotifications'
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventNotification'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -320,24 +292,19 @@ paths:
           $ref: '#/components/responses/standard504'
 components:
   parameters:
-    eventSubscriptionId:
-      name: eventSubscriptionId
-      in: path
-      required: true
+    cursor:
+      name: cursor
+      in: query
+      description: |
+        An opaque string value used for pagination.
+        If omitted, the server assumes:0
+      required: false
       schema:
         type: string
-      example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
-    fromEventDate:
-      name: fromEventDate
-      in: query
-      schema:
-        $ref: '#/components/schemas/EventNotificationDate'
-      example: 2022-10-26T07:58:30.996+0100
-      description: Select all events from this notification date-time or later.
     limit:
       name: limit
       in: query
-      description: >-
+      description: |
         Maximum number of items to return. (if omitted, the server assumes:
         1000)
       required: false
@@ -345,69 +312,34 @@ components:
         type: integer
         format: int32
         minimum: 1
-    cursor:
-      name: cursor
-      in: query
-      description: >-
-        An opaque string value used for pagination. (if omitted, the server
-        assumes: 0)
-      required: false
-      schema:
-        type: string
-    targetid_in_header:
-      name: X-CorAPI-Target-ID
-      in: header
-      description: >-
-        ID that identifies the provider (e.g., a financial institution). (SCOPE:
-        SIX required)
-      required: true
-      schema:
-        type: string
-    psu_ip_in_header:
-      name: X-PSU-IP-Address
-      in: header
-      description: >-
-        IP address of the user initiating the operation or AUTO for system
-        triggered processes (SCOPE: SIX required)
-      required: true
-      schema:
-        type: string
-    psu_user_agent_in_header:
-      name: X-PSU-User-Agent
-      in: header
-      description: >-
-        User agent of the user initiating the operation or AUTO for system
-        triggered processes (SCOPE: SIX required)
-      required: true
-      schema:
-        type: string
-    authorization_in_header:
-      name: Authorization
-      in: header
-      description: Bearer followed by a base64 encoded OAuth access token
-      required: true
-      schema:
-        type: string
     correlation_in_header:
       name: X-Correlation-ID
       in: header
-      description: >-
+      description: |
         Unique ID (defined by the caller) which will be reflected back in the
         response.
       required: true
       schema:
         type: string
         maxLength: 64
-    agent_in_header:
-      name: User-Agent
-      in: header
-      description: Name and version of the of the Client software
+    fromEventDate:
+      name: fromEventDate
+      in: query
+      schema:
+        type: string
+        format: date-time
+        example: 2022-10-26T07:58:30.996+0100
+      description: Select all events from this notification date-time or later.
+    eventSubscriptionId:
+      name: eventSubscriptionId
+      in: path
       required: true
       schema:
         type: string
+      example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
   headers:
     X-Correlation-ID:
-      description: >-
+      description: |
         Client defined ID from request to correlate HTTP requests between a
         client and a server
       schema:
@@ -419,16 +351,64 @@ components:
       required: false
       schema:
         type: string
-    WWW-Authenticate:
-      description: i.e. "Bearer error='invalid_token'" according to RFC6750 section-3
-      schema:
-        type: string
   schemas:
     EventSubscriptionId:
       type: string
       readOnly: true
       maxLength: 36
       example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+    EventNotificationId:
+      type: string
+      example: 120066c9-58a1-432b-aa60-712fae7f143e
+    EventNotification:
+      type: object
+      properties:
+        version:
+          type: string
+          example: '1.0'
+        eventType:
+          type: string
+          example: Order:Partially_Filled
+        eventSubscriptionId:
+          $ref: '#/components/schemas/EventSubscriptionId'
+        resourceLink:
+          type: string
+          example: /api/bankingservices/b-link/order-placement/v1/orders/abcd1234
+        createdAt:
+          type: string
+          example: 2022-10-26T07:58:30.996+0100
+        id:
+          $ref: '#/components/schemas/EventNotificationId'
+    CommonErrorType:
+      title: Common Error Type
+      type: string
+      description: Error Types for commonErrorResponse. See Appendix for detailed information.
+      example: /problems/TECHNICAL_ERROR
+      enum:
+        - /problems/INVALID_PAYLOAD
+        - /problems/MALFORMED_PAYLOAD
+        - /problems/TECHNICAL_ERROR
+        - /problems/SUBSCRIPTION_NOT_FOUND
+        - /problems/INSUFFICIENT_PRIVILEGES
+        - /problems/INVALID_TOKEN
+        - /problems/SUBSCRIPTION_ALREADY_EXISTS
+        - /problems/TOO_MANY_REQUESTS
+        - /problems/METHOD_NOT_ALLOWED
+    CommonErrorResponse:
+      title: Common Error Response
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/CommonErrorType'
+        title:
+          type: string
+          example: This is the general problem description
+        detail:
+          type: string
+          example: Detailed problem description with respect to the current request
+        instance:
+          type: string
+          example: path/to/corresponding/resource
     EventSubscription:
       type: object
       required:
@@ -450,84 +430,6 @@ components:
           type: string
           example: https://ttp.com/API/notifications/order-placement/
           description: Not to be used in bLink
-    EventSubscriptions:
-      type: object
-      properties:
-        eventSubscriptions:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventSubscription'
-    EventNotification:
-      type: object
-      properties:
-        version:
-          type: string
-          example: '1.0'
-        eventType:
-          type: string
-          example: Order:Partially_Filled
-        eventSubscriptionId:
-          $ref: '#/components/schemas/EventSubscriptionId'
-        resourceLink:
-          type: string
-          example: /api/bankingservices/b-link/order-placement/v1/orders/abcd1234
-        createdAt:
-          type: string
-          example: 2022-10-26T07:58:30.996+0100
-        id:
-          $ref: '#/components/schemas/EventNotificationId'
-    EventNotificationId:
-      type: string
-      example: 120066c9-58a1-432b-aa60-712fae7f143e
-    EventNotificationDate:
-      type: string
-      format: date-time
-      example: 2022-10-26T07:58:30.996+0100
-    AggregatedEventNotifications:
-      type: object
-      properties:
-        eventNotifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventNotification'
-    subscriptionSearchResponse:
-      type: object
-      properties:
-        eventSubscriptionIds:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventSubscriptionId'
-    commonErrorResponse:
-      title: Common Error Response
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/commonErrorType'
-        title:
-          type: string
-          example: This is the general problem description
-        detail:
-          type: string
-          example: Detailed problem description with respect to the current request
-        instance:
-          type: string
-          example: path/to/corresponding/resource
-    commonErrorType:
-      title: Common Error Type
-      type: string
-      description: >-
-        Error Types for commonErrorResponse. See Appendix for detailed
-        information.
-      example: /problems/TECHNICAL_ERROR
-      enum:
-        - /problems/INVALID_PAYLOAD
-        - /problems/MALFORMED_PAYLOAD
-        - /problems/TECHNICAL_ERROR
-        - /problems/SUBSCRIPTION_NOT_FOUND
-        - /problems/INSUFFICIENT_PRIVILEGES
-        - /problems/INVALID_TOKEN
-        - /problems/SUBSCRIPTION_ALREADY_EXISTS
-        - /problems/TOO_MANY_REQUESTS
   responses:
     standard400:
       headers:
@@ -537,7 +439,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/INVALID_PAYLOAD
             title: the request body was invalid
@@ -547,15 +449,13 @@ components:
       headers:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-        WWW-Authenticate:
-          $ref: '#/components/headers/WWW-Authenticate'
-      description: >-
+      description: |
         Unauthorized - Either no token or an invalid (e.g., token expired) token
         was received.
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/INVALID_TOKEN
             title: the token was invalid
@@ -565,16 +465,14 @@ components:
       headers:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-        WWW-Authenticate:
-          $ref: '#/components/headers/WWW-Authenticate'
-      description: >-
+      description: |
         Forbidden - A valid OAuth Token was received, but access was denied.
         (Depending on the security requirements, providers can return 404
         instead)
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/INSUFFICIENT_PRIVILEGES
             title: current user has insufficient privileges
@@ -584,53 +482,15 @@ components:
       headers:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: >-
+      description: |
         Not Found - Either the endpoint does not exist or a requested resource
         is not available
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/SUBSCRIPTION_NOT_FOUND
-            title: resource not found
-            detail: ...
-            instance: path/to/corresponding/resource
-    standard409:
-      headers:
-        X-Correlation-ID:
-          $ref: '#/components/headers/X-Correlation-ID'
-      description: >-
-        there was a conflict when creating the subscription. e.g., it already
-        exists for the same api and version
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/commonErrorResponse'
-          example:
-            type: /problems/SUBSCRIPTION_ALREADY_EXISTS
-            title: resource not found
-            detail: ...
-            instance: path/to/corresponding/resource
-    standard429:
-      headers:
-        X-Correlation-ID:
-          $ref: '#/components/headers/X-Correlation-ID'
-      description: >
-        When an SU sends too many lookup or polling requests in a given amount
-        of time the SP shall 
-
-        respond with HTTP 429 (Too many requests). This response may contain a
-        Retry-After header 
-
-        indicating how long the SU must wait before making a new request. (see
-        https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429).
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/commonErrorResponse'
-          example:
-            type: /problems/TOO_MANY_REQUESTS
             title: resource not found
             detail: ...
             instance: path/to/corresponding/resource
@@ -642,7 +502,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/TECHNICAL_ERROR
             title: unexpected error occurred
@@ -652,13 +512,13 @@ components:
       headers:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: >-
+      description: |
         Not Implemented - The request method is not supported by the server and
         cannot be handled.
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/TECHNICAL_ERROR
             title: unexpected error occurred
@@ -672,7 +532,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/TECHNICAL_ERROR
             title: server unavailable
@@ -686,9 +546,47 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/TECHNICAL_ERROR
             title: server unavailable
+            detail: ...
+            instance: path/to/corresponding/resource
+    standard409:
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: |
+        there was a conflict when creating the subscription. e.g., it already
+        exists for the same api and version
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
+          example:
+            type: /problems/SUBSCRIPTION_ALREADY_EXISTS
+            title: resource not found
+            detail: ...
+            instance: path/to/corresponding/resource
+    standard429:
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: |
+        When an SU sends too many lookup or polling requests in a given amount
+        of time the SP shall 
+
+        respond with HTTP 429 (Too many requests). This response may contain a
+        Retry-After header 
+
+        indicating how long the SU must wait before making a new request. (see
+        https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429).
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
+          example:
+            type: /problems/TOO_MANY_REQUESTS
+            title: resource not found
             detail: ...
             instance: path/to/corresponding/resource
