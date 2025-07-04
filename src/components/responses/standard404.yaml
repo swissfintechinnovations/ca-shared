@@ -2,8 +2,7 @@ headers:
   Correlation-Id:
     $ref: ../headers/Correlation-Id.yaml
 description: |
-  Not Found - Either the endpoint does not exist or a requested resource
-  is not available
+  Not Found - Either the endpoint does not exist or a requested resource is not available.
 content:
   application/problem+json:
     schema:

@@ -25,11 +25,7 @@ paths:
       description: Send notification to consumer.
       operationId: sendEventNotification
       parameters:
-        - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/event_type_in_header'
-        - $ref: '#/components/parameters/event_id_in_header'
-        - $ref: '#/components/parameters/event_created_in_header'
-        - $ref: '#/components/parameters/event_subscription_id_in_header'
+        - $ref: '#/components/parameters/correlation_id'
       tags:
         - Notification Webhook
       requestBody:
@@ -41,8 +37,8 @@ paths:
         '202':
           description: event-notification accepted
           headers:
-            X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
+            Correlation-Id:
+              $ref: '#/components/headers/Correlation-Id'
         '400':
           $ref: '#/components/responses/standard400'
         '404':
@@ -61,77 +57,53 @@ paths:
           $ref: '#/components/responses/standard504'
 components:
   parameters:
-    correlation_in_header:
-      name: X-Correlation-ID
+    correlation_id:
+      name: Correlation-Id
       in: header
       description: |
-        Unique ID (defined by the caller) which will be reflected back in the
-        response.
+        Unique ID (defined by the caller) which will be reflected back in the response.
       required: true
       schema:
         type: string
         maxLength: 64
-    event_type_in_header:
-      name: X-CorApi-Event-Type
-      in: header
-      description: The Event-Type
-      example: Order:Created
-      required: false
-      schema:
-        type: string
-    event_id_in_header:
-      name: X-CorApi-Event-ID
-      in: header
-      description: The Event-ID
-      example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
-      required: false
-      schema:
-        type: string
-    event_created_in_header:
-      name: X-CorAPI-Event-Created-At
-      in: header
-      description: The Event-Created Date
-      example: '2024-05-28T13:44:53Z'
-      required: false
-      schema:
-        type: string
-        format: date-time
-    event_subscription_id_in_header:
-      name: X-CorApi-Event-Subscription-ID
-      in: header
-      description: The ID of the Subscription the event was created for
-      example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
-      required: false
-      schema:
-        type: string
   schemas:
-    EventSubscriptionId:
-      type: string
-      readOnly: true
-      maxLength: 36
-      example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
-    EventNotificationId:
-      type: string
-      example: 120066c9-58a1-432b-aa60-712fae7f143e
     EventNotification:
       type: object
+      description: Schema of an event notification entity.
+      required:
+        - id
+        - eventType
+        - eventSubscriptionId
+        - resourceLink
       properties:
+        id:
+          type: string
+          description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
+          example: 120066c9-58a1-432b-aa60-712fae7f143e
         version:
           type: string
+          description: Version of the notification schema.
           example: '1.0'
         eventType:
           type: string
-          example: Order:Partially_Filled
+          example: order:partiallyFilled
         eventSubscriptionId:
-          $ref: '#/components/schemas/EventSubscriptionId'
+          type: string
+          description: Id of the subscription that caused the event to be triggered.
+          readOnly: true
+          maxLength: 36
+          example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
         resourceLink:
           type: string
-          example: /api/bankingservices/b-link/order-placement/v1/orders/abcd1234
-        createdAt:
+          description: |
+            The resourceLink is an absolute or relative URL reference to the specific resource or object that triggered the webhook event.
+            This link provides immediate access to the full details of the affected item in the source system.
+          example: /orders/e6751a48-0819-4482-98a4-760453ba770d
+        creationDateTime:
           type: string
+          format: date-time
+          description: Timestamp of the creation of the event notification.
           example: 2022-10-26T07:58:30.996+0100
-        id:
-          $ref: '#/components/schemas/EventNotificationId'
     CommonErrorType:
       title: Common Error Type
       type: string
@@ -163,7 +135,7 @@ components:
           type: string
           example: path/to/corresponding/resource
   headers:
-    X-Correlation-ID:
+    Correlation-Id:
       description: |
         Client defined ID from request to correlate HTTP requests between a
         client and a server
@@ -174,8 +146,8 @@ components:
   responses:
     standard400:
       headers:
-        X-Correlation-ID:
-          $ref: '#/components/headers/X-Correlation-ID'
+        Correlation-Id:
+          $ref: '#/components/headers/Correlation-Id'
       description: Bad Request - The format of the request was invalid.
       content:
         application/problem+json:
@@ -188,11 +160,10 @@ components:
             instance: path/to/corresponding/resource
     standard404:
       headers:
-        X-Correlation-ID:
-          $ref: '#/components/headers/X-Correlation-ID'
+        Correlation-Id:
+          $ref: '#/components/headers/Correlation-Id'
       description: |
-        Not Found - Either the endpoint does not exist or a requested resource
-        is not available
+        Not Found - Either the endpoint does not exist or a requested resource is not available.
       content:
         application/problem+json:
           schema:
@@ -204,11 +175,11 @@ components:
             instance: path/to/corresponding/resource
     standard405:
       headers:
-        X-Correlation-ID:
-          $ref: '#/components/headers/X-Correlation-ID'
+        Correlation-Id:
+          $ref: '#/components/headers/Correlation-Id'
       description: |
         Method Not Allowed - The request method is known by the server but is
-        not supported by the target resource
+        not supported by the target resource.
       content:
         application/problem+json:
           schema:
@@ -220,17 +191,14 @@ components:
             instance: path/to/corresponding/resource
     standard429:
       headers:
-        X-Correlation-ID:
-          $ref: '#/components/headers/X-Correlation-ID'
+        Correlation-Id:
+          $ref: '#/components/headers/Correlation-Id'
       description: |
         When an SU sends too many lookup or polling requests in a given amount
-        of time the SP shall 
-
-        respond with HTTP 429 (Too many requests). This response may contain a
-        Retry-After header 
-
-        indicating how long the SU must wait before making a new request. (see
-        https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429).
+        of time the SP shall respond with HTTP 429 (Too many requests).
+        This response may contain a Retry-After header indicating how long the SU
+        must wait before making a new request.
+        (see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429).
       content:
         application/problem+json:
           schema:
@@ -242,8 +210,8 @@ components:
             instance: path/to/corresponding/resource
     standard500:
       headers:
-        X-Correlation-ID:
-          $ref: '#/components/headers/X-Correlation-ID'
+        Correlation-Id:
+          $ref: '#/components/headers/Correlation-Id'
       description: Internal Server Error
       content:
         application/problem+json:
@@ -256,8 +224,8 @@ components:
             instance: path/to/corresponding/resource
     standard501:
       headers:
-        X-Correlation-ID:
-          $ref: '#/components/headers/X-Correlation-ID'
+        Correlation-Id:
+          $ref: '#/components/headers/Correlation-Id'
       description: |
         Not Implemented - The request method is not supported by the server and
         cannot be handled.
@@ -272,8 +240,8 @@ components:
             instance: path/to/corresponding/resource
     standard503:
       headers:
-        X-Correlation-ID:
-          $ref: '#/components/headers/X-Correlation-ID'
+        Correlation-Id:
+          $ref: '#/components/headers/Correlation-Id'
       description: Service Unavailable
       content:
         application/problem+json:
@@ -286,8 +254,8 @@ components:
             instance: path/to/corresponding/resource
     standard504:
       headers:
-        X-Correlation-ID:
-          $ref: '#/components/headers/X-Correlation-ID'
+        Correlation-Id:
+          $ref: '#/components/headers/Correlation-Id'
       description: Gateway Timeout
       content:
         application/problem+json:

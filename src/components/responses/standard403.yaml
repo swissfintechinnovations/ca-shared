@@ -3,8 +3,7 @@ headers:
     $ref: ../headers/Correlation-Id.yaml
 description: |
   Forbidden - A valid OAuth Token was received, but access was denied.
-  (Depending on the security requirements, providers can return 404
-  instead)
+  (Depending on the security requirements, providers can return 404 instead)
 content:
   application/problem+json:
     schema:
