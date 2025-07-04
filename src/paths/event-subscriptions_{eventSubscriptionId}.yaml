@@ -1,10 +1,9 @@
-parameters:
-  - $ref: ../components/parameters/eventSubscriptionId.yaml
 get:
   summary: Get event subscription
   description: Get event subscription by id.
   parameters:
-    - $ref: ../components/parameters/correlation_in_header.yaml
+    - $ref: ../components/parameters/event_subscription_id.yaml
+    - $ref: ../components/parameters/correlation_id.yaml
   operationId: getEventSubscription
   tags:
     - Event Subscription
@@ -12,8 +11,8 @@ get:
     '200':
       description: EventSubscription
       headers:
-        X-Correlation-ID:
-          $ref: ../components/headers/X-Correlation-ID.yaml
+        Correlation-Id:
+          $ref: ../components/headers/Correlation-Id.yaml
       content:
         application/json:
           schema:
@@ -39,7 +38,8 @@ put:
   description: Update event subscription.
   operationId: updateEventSubscription
   parameters:
-    - $ref: ../components/parameters/correlation_in_header.yaml
+    - $ref: ../components/parameters/event_subscription_id.yaml
+    - $ref: ../components/parameters/correlation_id.yaml
   tags:
     - Event Subscription
   requestBody:
@@ -49,15 +49,15 @@ put:
           $ref: ../components/schemas/EventSubscription.yaml
         example:
           eventTypes:
-            - Order:Created
-            - Order:Partially_Filled
+            - order:created
+            - order:partiallyFilled
           callbackUrl: /ttpAPI/notifications/order-placement/
   responses:
     '204':
       description: Successfully updated (empty response)
       headers:
-        X-Correlation-ID:
-          $ref: ../components/headers/X-Correlation-ID.yaml
+        Correlation-Id:
+          $ref: ../components/headers/Correlation-Id.yaml
     '400':
       $ref: ../components/responses/standard400.yaml
     '401':
@@ -79,15 +79,16 @@ delete:
   description: Delete event subscription by id.
   operationId: deleteEventSubscription
   parameters:
-    - $ref: ../components/parameters/correlation_in_header.yaml
+    - $ref: ../components/parameters/event_subscription_id.yaml
+    - $ref: ../components/parameters/correlation_id.yaml
   tags:
     - Event Subscription
   responses:
     '204':
       description: Successfully deleted
       headers:
-        X-Correlation-ID:
-          $ref: ../components/headers/X-Correlation-ID.yaml
+        Correlation-Id:
+          $ref: ../components/headers/Correlation-Id.yaml
     '400':
       $ref: ../components/responses/standard400.yaml
     '401':

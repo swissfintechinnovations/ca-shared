@@ -3,11 +3,7 @@ post:
   description: Send notification to consumer.
   operationId: sendEventNotification
   parameters:
-    - $ref: ../components/parameters/correlation_in_header.yaml
-    - $ref: ../components/parameters/event_type_in_header.yaml
-    - $ref: ../components/parameters/event_id_in_header.yaml
-    - $ref: ../components/parameters/event_created_in_header.yaml
-    - $ref: ../components/parameters/event_subscription_id_in_header.yaml
+    - $ref: ../components/parameters/correlation_id.yaml
   tags:
     - Notification Webhook
   requestBody:
@@ -19,8 +15,8 @@ post:
     '202':
       description: event-notification accepted
       headers:
-        X-Correlation-ID:
-          $ref: ../components/headers/X-Correlation-ID.yaml
+        Correlation-Id:
+          $ref: ../components/headers/Correlation-Id.yaml
     '400':
       $ref: ../components/responses/standard400.yaml
     '404':

@@ -1,7 +1,0 @@
-name: X-CorApi-Event-Type
-in: header
-description: The Event-Type
-example: Order:Created
-required: false
-schema:
-  type: string

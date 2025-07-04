@@ -1,6 +1,6 @@
 headers:
-  X-Correlation-ID:
-    $ref: ../headers/X-Correlation-ID.yaml
+  Correlation-Id:
+    $ref: ../headers/Correlation-Id.yaml
 description: |
   there was a conflict when creating the subscription. e.g., it already
   exists for the same api and version

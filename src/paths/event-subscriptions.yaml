@@ -1,21 +1,21 @@
 get:
   summary: Get event subscriptions
   description: Get list of event subscriptions.
-  operationId: getEventSubscriptions
+  operationId: listEventSubscriptions
   parameters:
     - $ref: ../components/parameters/cursor.yaml
     - $ref: ../components/parameters/limit.yaml
-    - $ref: ../components/parameters/correlation_in_header.yaml
+    - $ref: ../components/parameters/correlation_id.yaml
   tags:
     - Event Subscription
   responses:
     '200':
       description: List of EventSubscriptions
       headers:
-        X-Correlation-ID:
-          $ref: ../components/headers/X-Correlation-ID.yaml
-        x-nextCursor:
-          $ref: ../components/headers/x-nextCursor.yaml
+        Correlation-Id:
+          $ref: ../components/headers/Correlation-Id.yaml
+        Next-Cursor:
+          $ref: ../components/headers/Next-Cursor.yaml
       content:
         application/json:
           schema:
@@ -43,7 +43,7 @@ post:
   description: Create event subscription
   operationId: createEventSubscription
   parameters:
-    - $ref: ../components/parameters/correlation_in_header.yaml
+    - $ref: ../components/parameters/correlation_id.yaml
   tags:
     - Event Subscription
   requestBody:
@@ -55,8 +55,8 @@ post:
     '201':
       description: EventSubscription created
       headers:
-        X-Correlation-ID:
-          $ref: ../components/headers/X-Correlation-ID.yaml
+        Correlation-Id:
+          $ref: ../components/headers/Correlation-Id.yaml
       content:
         application/json:
           schema:

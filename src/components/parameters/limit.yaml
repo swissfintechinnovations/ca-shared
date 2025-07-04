@@ -1,8 +1,8 @@
 name: limit
 in: query
 description: |
-  Maximum number of items to return. (if omitted, the server assumes:
-  1000)
+  Maximum number of items to return.
+  If omitted, the server assumes: 1000
 required: false
 schema:
   type: integer

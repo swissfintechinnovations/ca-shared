@@ -1,20 +1,23 @@
 type: object
+description: Schema of an event subscription entity.
 required:
   - eventTypes
 properties:
-  eventSubscriptionId:
-    $ref: ./EventSubscriptionId.yaml
+  id:
+    type: string
+    description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
+    readOnly: true
+    maxLength: 36
+    example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
   eventTypes:
     type: array
+    description: List of event types subject to subscription.
     items:
       type: string
-      enum:
-        - Order:Created
-        - Order:Partially_Filled
-    example:
-      - Order:Created
-      - Order:Partially_Filled
+      example: order:partiallyFilled
   callbackUrl:
     type: string
-    example: https://ttp.com/API/notifications/order-placement/
-    description: Not to be used in bLink
+    description: |
+      Endpoint provided by the client (subscriber) where the server (publisher)
+      can send asynchronous event notifications.
+    example: https://ttp.com/API/notifications/
