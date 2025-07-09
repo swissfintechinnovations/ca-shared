@@ -6,7 +6,7 @@ parameters:
 get:
   summary: Get event notifications list
   description: Get aggregated event-notification list.
-  operationId: listEventNotifications
+  operationId: listEventSubscriptionEventNotifications
   parameters:
     - $ref: ../components/parameters/correlation_id.yaml
   tags:
