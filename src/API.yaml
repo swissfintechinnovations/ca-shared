@@ -29,3 +29,9 @@ paths:
     $ref: paths/event-subscriptions_{eventSubscriptionId}.yaml
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
     $ref: paths/event-subscriptions_{eventSubscriptionId}_event-notifications.yaml
+components:
+  schemas: {}
+  responses: {}
+  parameters: {}
+  headers: {}
+  securitySchemes: {}

@@ -1,7 +1,7 @@
 headers:
   Correlation-Id:
     $ref: ../headers/Correlation-Id.yaml
-description: Service Unavailable
+description: Service Unavailable.
 content:
   application/problem+json:
     schema:

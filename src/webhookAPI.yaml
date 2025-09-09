@@ -27,3 +27,9 @@ security: []
 paths:
   /event-notifications:
     $ref: paths/event-notifications.yaml
+components:
+  schemas: {}
+  responses: {}
+  parameters: {}
+  headers: {}
+  securitySchemes: {}

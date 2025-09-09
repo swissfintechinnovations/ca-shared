@@ -3,7 +3,7 @@ headers:
     $ref: ../headers/Correlation-Id.yaml
 description: |
   there was a conflict when creating the subscription. e.g., it already
-  exists for the same api and version
+  exists for the same api and version.
 content:
   application/problem+json:
     schema:
