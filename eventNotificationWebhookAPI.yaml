@@ -18,6 +18,12 @@ info:
 servers:
   - url: https://webhook-notification.common-api.ch
 security: []
+tags:
+  - name: event notifications
+    description: Event notification operations.
+externalDocs:
+  description: Find out more about SFTI API specifications.
+  url: https://www.common-api.ch
 paths:
   /event-notifications:
     post:
@@ -27,7 +33,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - Notification Webhook
+        - event notifications
       requestBody:
         content:
           application/json:
@@ -35,7 +41,7 @@ paths:
               $ref: '#/components/schemas/EventNotification'
       responses:
         '202':
-          description: event-notification accepted
+          description: Event notification accepted.
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'

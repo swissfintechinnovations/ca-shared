@@ -7,7 +7,7 @@ get:
     - $ref: ../components/parameters/limit.yaml
     - $ref: ../components/parameters/correlation_id.yaml
   tags:
-    - Event Subscription
+    - event subscriptions
   responses:
     '200':
       description: List of EventSubscriptions
@@ -42,7 +42,7 @@ get:
       $ref: ../components/responses/standard504.yaml
 post:
   summary: Create event subscription
-  description: Create event subscription
+  description: Create event subscription.
   operationId: createEventSubscription
   parameters:
     - $ref: ../components/parameters/correlation_id.yaml
@@ -55,7 +55,7 @@ post:
           $ref: ../components/schemas/EventSubscription.yaml
   responses:
     '201':
-      description: EventSubscription created
+      description: Event subscription created.
       headers:
         Correlation-Id:
           $ref: ../components/headers/Correlation-Id.yaml

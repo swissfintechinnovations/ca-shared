@@ -17,6 +17,12 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: https://webhook-notification.common-api.ch
+externalDocs:
+  description: Find out more about SFTI API specifications.
+  url: https://www.common-api.ch
+tags:
+  - name: event notifications
+    description: Event notification operations.
 security: []
 paths:
   /event-notifications:

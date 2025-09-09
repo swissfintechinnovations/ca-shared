@@ -5,7 +5,7 @@ post:
   parameters:
     - $ref: ../components/parameters/correlation_id.yaml
   tags:
-    - Notification Webhook
+    - event notifications
   requestBody:
     content:
       application/json:
@@ -13,7 +13,7 @@ post:
           $ref: ../components/schemas/EventNotification.yaml
   responses:
     '202':
-      description: event-notification accepted
+      description: Event notification accepted.
       headers:
         Correlation-Id:
           $ref: ../components/headers/Correlation-Id.yaml

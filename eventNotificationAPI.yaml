@@ -12,6 +12,14 @@ info:
 servers:
   - url: https://webhook-notification.common-api.ch
 security: []
+tags:
+  - name: event subscriptions
+    description: Event subscription operations.
+  - name: event notifications
+    description: Event notification operations.
+externalDocs:
+  description: Find out more about SFTI API specifications.
+  url: https://www.common-api.ch
 paths:
   /event-subscriptions:
     get:
@@ -23,7 +31,7 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - Event Subscription
+        - event subscriptions
       responses:
         '200':
           description: List of EventSubscriptions
@@ -58,7 +66,7 @@ paths:
           $ref: '#/components/responses/standard504'
     post:
       summary: Create event subscription
-      description: Create event subscription
+      description: Create event subscription.
       operationId: createEventSubscription
       parameters:
         - $ref: '#/components/parameters/correlation_id'
@@ -71,7 +79,7 @@ paths:
               $ref: '#/components/schemas/EventSubscription'
       responses:
         '201':
-          description: EventSubscription created
+          description: Event subscription created.
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'
@@ -112,12 +120,12 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/from_event_date'
       tags:
-        - Event Subscription
+        - event subscriptions
       responses:
         '200':
           description: |
             List of event subscriptions with events that are newer than the specified
-            parameters
+            parameters.
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'
@@ -156,10 +164,10 @@ paths:
         - $ref: '#/components/parameters/correlation_id'
       operationId: getEventSubscription
       tags:
-        - Event Subscription
+        - event subscriptions
       responses:
         '200':
-          description: EventSubscription
+          description: Get event subscriptions.
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'
@@ -175,6 +183,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '500':
           $ref: '#/components/responses/standard500'
         '501':
@@ -191,7 +201,7 @@ paths:
         - $ref: '#/components/parameters/event_subscription_id'
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - Event Subscription
+        - event subscriptions
       requestBody:
         content:
           application/json:
@@ -204,7 +214,7 @@ paths:
               callbackUrl: /ttpAPI/notifications/order-placement/
       responses:
         '204':
-          description: Successfully updated (empty response)
+          description: Successfully updated (empty response).
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'
@@ -237,7 +247,7 @@ paths:
         - Event Subscription
       responses:
         '204':
-          description: Successfully deleted
+          description: Successfully deleted.
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'
@@ -265,15 +275,15 @@ paths:
       - $ref: '#/components/parameters/limit'
     get:
       summary: Get event notifications list
-      description: Get aggregated event-notification list.
+      description: Get aggregated event notification list.
       operationId: listEventSubscriptionEventNotifications
       parameters:
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - Event Notifications
+        - event notifications
       responses:
         '200':
-          description: aggregated event-notification list
+          description: List of event notifications.
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'
