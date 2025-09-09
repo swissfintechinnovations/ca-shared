@@ -86,7 +86,7 @@ delete:
     - $ref: ../components/parameters/event_subscription_id.yaml
     - $ref: ../components/parameters/correlation_id.yaml
   tags:
-    - Event Subscription
+    - event subscriptions
   responses:
     '204':
       description: Successfully deleted.

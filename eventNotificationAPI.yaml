@@ -244,7 +244,7 @@ paths:
         - $ref: '#/components/parameters/event_subscription_id'
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - Event Subscription
+        - event subscriptions
       responses:
         '204':
           description: Successfully deleted.
