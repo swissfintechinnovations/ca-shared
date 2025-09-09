@@ -21,7 +21,7 @@ get:
           schema:
             type: array
             items:
-              $ref: ../components/schemas/EventNotification.yaml
+              $ref: ../components/schemas/EventSubscription.yaml
     '400':
       $ref: ../components/responses/standard400.yaml
     '401':
@@ -30,6 +30,8 @@ get:
       $ref: ../components/responses/standard403.yaml
     '404':
       $ref: ../components/responses/standard404.yaml
+    '405':
+      $ref: ../components/responses/standard405.yaml
     '500':
       $ref: ../components/responses/standard500.yaml
     '501':
@@ -69,6 +71,8 @@ post:
       $ref: ../components/responses/standard403.yaml
     '404':
       $ref: ../components/responses/standard404.yaml
+    '405':
+      $ref: ../components/responses/standard405.yaml
     '409':
       $ref: ../components/responses/standard409.yaml
     '500':

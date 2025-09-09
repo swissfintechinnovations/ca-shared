@@ -33,6 +33,8 @@ get:
       $ref: ../components/responses/standard403.yaml
     '404':
       $ref: ../components/responses/standard404.yaml
+    '405':
+      $ref: ../components/responses/standard405.yaml
     '429':
       $ref: ../components/responses/standard429.yaml
     '500':

@@ -37,7 +37,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/EventNotification'
+                  $ref: '#/components/schemas/EventSubscription'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -46,6 +46,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '500':
           $ref: '#/components/responses/standard500'
         '501':
@@ -85,6 +87,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '409':
           $ref: '#/components/responses/standard409'
         '500':
@@ -133,6 +137,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '500':
           $ref: '#/components/responses/standard500'
         '501':
@@ -210,6 +216,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '500':
           $ref: '#/components/responses/standard500'
         '501':
@@ -285,6 +293,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '429':
           $ref: '#/components/responses/standard429'
         '500':
@@ -356,6 +366,60 @@ components:
       schema:
         type: string
   schemas:
+    EventSubscription:
+      type: object
+      description: Schema of an event subscription entity.
+      required:
+        - eventTypes
+      properties:
+        id:
+          type: string
+          description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
+          readOnly: true
+          maxLength: 36
+          example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+        eventTypes:
+          type: array
+          description: List of event types subject to subscription.
+          items:
+            type: string
+            example: order:partiallyFilled
+        callbackUrl:
+          type: string
+          description: |
+            Endpoint provided by the client (subscriber) where the server (publisher)
+            can send asynchronous event notifications.
+          example: https://ttp.com/API/notifications/
+    CommonErrorType:
+      title: Common Error Type
+      type: string
+      description: Error Types for commonErrorResponse. See Appendix for detailed information.
+      example: /problems/TECHNICAL_ERROR
+      enum:
+        - /problems/INVALID_PAYLOAD
+        - /problems/MALFORMED_PAYLOAD
+        - /problems/TECHNICAL_ERROR
+        - /problems/SUBSCRIPTION_NOT_FOUND
+        - /problems/INSUFFICIENT_PRIVILEGES
+        - /problems/INVALID_TOKEN
+        - /problems/SUBSCRIPTION_ALREADY_EXISTS
+        - /problems/TOO_MANY_REQUESTS
+        - /problems/METHOD_NOT_ALLOWED
+    CommonErrorResponse:
+      title: Common Error Response
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/CommonErrorType'
+        title:
+          type: string
+          example: This is the general problem description
+        detail:
+          type: string
+          example: Detailed problem description with respect to the current request
+        instance:
+          type: string
+          example: path/to/corresponding/resource
     EventNotification:
       type: object
       description: Schema of an event notification entity.
@@ -393,60 +457,6 @@ components:
           format: date-time
           description: Timestamp of the creation of the event notification.
           example: 2022-10-26T07:58:30.996+0100
-    CommonErrorType:
-      title: Common Error Type
-      type: string
-      description: Error Types for commonErrorResponse. See Appendix for detailed information.
-      example: /problems/TECHNICAL_ERROR
-      enum:
-        - /problems/INVALID_PAYLOAD
-        - /problems/MALFORMED_PAYLOAD
-        - /problems/TECHNICAL_ERROR
-        - /problems/SUBSCRIPTION_NOT_FOUND
-        - /problems/INSUFFICIENT_PRIVILEGES
-        - /problems/INVALID_TOKEN
-        - /problems/SUBSCRIPTION_ALREADY_EXISTS
-        - /problems/TOO_MANY_REQUESTS
-        - /problems/METHOD_NOT_ALLOWED
-    CommonErrorResponse:
-      title: Common Error Response
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/CommonErrorType'
-        title:
-          type: string
-          example: This is the general problem description
-        detail:
-          type: string
-          example: Detailed problem description with respect to the current request
-        instance:
-          type: string
-          example: path/to/corresponding/resource
-    EventSubscription:
-      type: object
-      description: Schema of an event subscription entity.
-      required:
-        - eventTypes
-      properties:
-        id:
-          type: string
-          description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
-          readOnly: true
-          maxLength: 36
-          example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
-        eventTypes:
-          type: array
-          description: List of event types subject to subscription.
-          items:
-            type: string
-            example: order:partiallyFilled
-        callbackUrl:
-          type: string
-          description: |
-            Endpoint provided by the client (subscriber) where the server (publisher)
-            can send asynchronous event notifications.
-          example: https://ttp.com/API/notifications/
   responses:
     standard400:
       headers:
@@ -507,6 +517,22 @@ components:
           example:
             type: /problems/SUBSCRIPTION_NOT_FOUND
             title: resource not found
+            detail: ...
+            instance: path/to/corresponding/resource
+    standard405:
+      headers:
+        Correlation-Id:
+          $ref: '#/components/headers/Correlation-Id'
+      description: |
+        Method Not Allowed - The request method is known by the server but is
+        not supported by the target resource.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
+          example:
+            type: /problems/METHOD_NOT_ALLOWED
+            title: method not allowed
             detail: ...
             instance: path/to/corresponding/resource
     standard500:
