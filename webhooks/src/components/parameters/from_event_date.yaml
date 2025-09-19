@@ -1,4 +1,4 @@
-name: fromEventDate
+name: from_event_date
 in: query
 schema:
   type: string

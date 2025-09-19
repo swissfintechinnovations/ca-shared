@@ -1,7 +1,7 @@
 headers:
   Correlation-Id:
     $ref: ../headers/Correlation-Id.yaml
-description: Internal Server Error
+description: Internal Server Error.
 content:
   application/problem+json:
     schema:

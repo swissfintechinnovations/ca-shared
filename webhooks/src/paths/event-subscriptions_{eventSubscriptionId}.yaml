@@ -6,10 +6,10 @@ get:
     - $ref: ../components/parameters/correlation_id.yaml
   operationId: getEventSubscription
   tags:
-    - Event Subscription
+    - event subscriptions
   responses:
     '200':
-      description: EventSubscription
+      description: Get event subscriptions.
       headers:
         Correlation-Id:
           $ref: ../components/headers/Correlation-Id.yaml
@@ -25,6 +25,8 @@ get:
       $ref: ../components/responses/standard403.yaml
     '404':
       $ref: ../components/responses/standard404.yaml
+    '405':
+      $ref: ../components/responses/standard405.yaml
     '500':
       $ref: ../components/responses/standard500.yaml
     '501':
@@ -41,7 +43,7 @@ put:
     - $ref: ../components/parameters/event_subscription_id.yaml
     - $ref: ../components/parameters/correlation_id.yaml
   tags:
-    - Event Subscription
+    - event subscriptions
   requestBody:
     content:
       application/json:
@@ -54,7 +56,7 @@ put:
           callbackUrl: /ttpAPI/notifications/order-placement/
   responses:
     '204':
-      description: Successfully updated (empty response)
+      description: Successfully updated (empty response).
       headers:
         Correlation-Id:
           $ref: ../components/headers/Correlation-Id.yaml
@@ -66,6 +68,8 @@ put:
       $ref: ../components/responses/standard403.yaml
     '404':
       $ref: ../components/responses/standard404.yaml
+    '405':
+      $ref: ../components/responses/standard405.yaml
     '500':
       $ref: ../components/responses/standard500.yaml
     '501':
@@ -82,10 +86,10 @@ delete:
     - $ref: ../components/parameters/event_subscription_id.yaml
     - $ref: ../components/parameters/correlation_id.yaml
   tags:
-    - Event Subscription
+    - event subscriptions
   responses:
     '204':
-      description: Successfully deleted
+      description: Successfully deleted.
       headers:
         Correlation-Id:
           $ref: ../components/headers/Correlation-Id.yaml

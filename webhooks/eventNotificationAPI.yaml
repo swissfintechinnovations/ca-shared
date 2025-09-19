@@ -11,6 +11,14 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: https://webhook-notification.common-api.ch
+externalDocs:
+  description: Find out more about SFTI API specifications.
+  url: https://www.common-api.ch
+tags:
+  - name: event subscriptions
+    description: Event subscription operations.
+  - name: event notifications
+    description: Event notification operations.
 security: []
 paths:
   /event-subscriptions:
@@ -23,10 +31,10 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - Event Subscription
+        - event subscriptions
       responses:
         '200':
-          description: List of EventSubscriptions
+          description: List of event subscriptions.
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'
@@ -37,7 +45,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/EventNotification'
+                  $ref: '#/components/schemas/EventSubscription'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -46,6 +54,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '500':
           $ref: '#/components/responses/standard500'
         '501':
@@ -56,12 +66,12 @@ paths:
           $ref: '#/components/responses/standard504'
     post:
       summary: Create event subscription
-      description: Create event subscription
+      description: Create event subscription.
       operationId: createEventSubscription
       parameters:
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - Event Subscription
+        - event subscriptions
       requestBody:
         content:
           application/json:
@@ -69,7 +79,7 @@ paths:
               $ref: '#/components/schemas/EventSubscription'
       responses:
         '201':
-          description: EventSubscription created
+          description: Event subscription created.
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'
@@ -85,6 +95,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '409':
           $ref: '#/components/responses/standard409'
         '500':
@@ -108,12 +120,12 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/from_event_date'
       tags:
-        - Event Subscription
+        - event subscriptions
       responses:
         '200':
           description: |
             List of event subscriptions with events that are newer than the specified
-            parameters
+            parameters.
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'
@@ -133,6 +145,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '500':
           $ref: '#/components/responses/standard500'
         '501':
@@ -150,10 +164,10 @@ paths:
         - $ref: '#/components/parameters/correlation_id'
       operationId: getEventSubscription
       tags:
-        - Event Subscription
+        - event subscriptions
       responses:
         '200':
-          description: EventSubscription
+          description: Get event subscriptions.
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'
@@ -169,6 +183,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '500':
           $ref: '#/components/responses/standard500'
         '501':
@@ -185,7 +201,7 @@ paths:
         - $ref: '#/components/parameters/event_subscription_id'
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - Event Subscription
+        - event subscriptions
       requestBody:
         content:
           application/json:
@@ -198,7 +214,7 @@ paths:
               callbackUrl: /ttpAPI/notifications/order-placement/
       responses:
         '204':
-          description: Successfully updated (empty response)
+          description: Successfully updated (empty response).
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'
@@ -210,6 +226,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '500':
           $ref: '#/components/responses/standard500'
         '501':
@@ -226,10 +244,10 @@ paths:
         - $ref: '#/components/parameters/event_subscription_id'
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - Event Subscription
+        - event subscriptions
       responses:
         '204':
-          description: Successfully deleted
+          description: Successfully deleted.
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'
@@ -257,15 +275,15 @@ paths:
       - $ref: '#/components/parameters/limit'
     get:
       summary: Get event notifications list
-      description: Get aggregated event-notification list.
+      description: Get aggregated event notification list.
       operationId: listEventSubscriptionEventNotifications
       parameters:
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - Event Notifications
+        - event notifications
       responses:
         '200':
-          description: aggregated event-notification list
+          description: List of event notifications.
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'
@@ -285,6 +303,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '429':
           $ref: '#/components/responses/standard429'
         '500':
@@ -296,66 +316,61 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
 components:
-  parameters:
-    cursor:
-      name: cursor
-      in: query
-      description: |
-        An opaque string value used for pagination.
-        If omitted, the server assumes:0
-      required: false
-      schema:
-        type: string
-    limit:
-      name: limit
-      in: query
-      description: |
-        Maximum number of items to return.
-        If omitted, the server assumes: 1000
-      required: false
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-    correlation_id:
-      name: Correlation-Id
-      in: header
-      description: |
-        Unique ID (defined by the caller) which will be reflected back in the response.
-      required: true
-      schema:
-        type: string
-        maxLength: 64
-    from_event_date:
-      name: fromEventDate
-      in: query
-      schema:
-        type: string
-        format: date-time
-        example: 2022-10-26T07:58:30.996+0100
-      description: Select all events from this notification date-time or later.
-    event_subscription_id:
-      name: eventSubscriptionId
-      in: path
-      required: true
-      schema:
-        type: string
-      example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
-  headers:
-    Correlation-Id:
-      description: |
-        Client defined ID from request to correlate HTTP requests between a
-        client and a server
-      schema:
-        type: string
-        maxLength: 64
-        example: f058ebd6-02f7-4d3f-942e-904344e8cde5
-    Next-Cursor:
-      description: An opaque string value, or an empty string if there are no more results.
-      required: false
-      schema:
-        type: string
   schemas:
+    EventSubscription:
+      type: object
+      description: Schema of an event subscription entity.
+      required:
+        - eventTypes
+      properties:
+        id:
+          type: string
+          description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
+          readOnly: true
+          maxLength: 36
+          example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+        eventTypes:
+          type: array
+          description: List of event types subject to subscription.
+          items:
+            type: string
+            example: order:partiallyFilled
+        callbackUrl:
+          type: string
+          description: |
+            Endpoint provided by the client (subscriber) where the server (publisher)
+            can send asynchronous event notifications.
+          example: https://ttp.com/API/notifications/
+    CommonErrorType:
+      title: Common Error Type
+      type: string
+      description: Error Types for commonErrorResponse. See Appendix for detailed information.
+      example: /problems/TECHNICAL_ERROR
+      enum:
+        - /problems/INVALID_PAYLOAD
+        - /problems/MALFORMED_PAYLOAD
+        - /problems/TECHNICAL_ERROR
+        - /problems/SUBSCRIPTION_NOT_FOUND
+        - /problems/INSUFFICIENT_PRIVILEGES
+        - /problems/INVALID_TOKEN
+        - /problems/SUBSCRIPTION_ALREADY_EXISTS
+        - /problems/TOO_MANY_REQUESTS
+        - /problems/METHOD_NOT_ALLOWED
+    CommonErrorResponse:
+      title: Common Error Response
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/CommonErrorType'
+        title:
+          type: string
+          example: This is the general problem description
+        detail:
+          type: string
+          example: Detailed problem description with respect to the current request
+        instance:
+          type: string
+          example: path/to/corresponding/resource
     EventNotification:
       type: object
       description: Schema of an event notification entity.
@@ -393,60 +408,6 @@ components:
           format: date-time
           description: Timestamp of the creation of the event notification.
           example: 2022-10-26T07:58:30.996+0100
-    CommonErrorType:
-      title: Common Error Type
-      type: string
-      description: Error Types for commonErrorResponse. See Appendix for detailed information.
-      example: /problems/TECHNICAL_ERROR
-      enum:
-        - /problems/INVALID_PAYLOAD
-        - /problems/MALFORMED_PAYLOAD
-        - /problems/TECHNICAL_ERROR
-        - /problems/SUBSCRIPTION_NOT_FOUND
-        - /problems/INSUFFICIENT_PRIVILEGES
-        - /problems/INVALID_TOKEN
-        - /problems/SUBSCRIPTION_ALREADY_EXISTS
-        - /problems/TOO_MANY_REQUESTS
-        - /problems/METHOD_NOT_ALLOWED
-    CommonErrorResponse:
-      title: Common Error Response
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/CommonErrorType'
-        title:
-          type: string
-          example: This is the general problem description
-        detail:
-          type: string
-          example: Detailed problem description with respect to the current request
-        instance:
-          type: string
-          example: path/to/corresponding/resource
-    EventSubscription:
-      type: object
-      description: Schema of an event subscription entity.
-      required:
-        - eventTypes
-      properties:
-        id:
-          type: string
-          description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
-          readOnly: true
-          maxLength: 36
-          example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
-        eventTypes:
-          type: array
-          description: List of event types subject to subscription.
-          items:
-            type: string
-            example: order:partiallyFilled
-        callbackUrl:
-          type: string
-          description: |
-            Endpoint provided by the client (subscriber) where the server (publisher)
-            can send asynchronous event notifications.
-          example: https://ttp.com/API/notifications/
   responses:
     standard400:
       headers:
@@ -484,7 +445,7 @@ components:
           $ref: '#/components/headers/Correlation-Id'
       description: |
         Forbidden - A valid OAuth Token was received, but access was denied.
-        (Depending on the security requirements, providers can return 404 instead)
+        (Depending on the security requirements, providers can return 404 instead).
       content:
         application/problem+json:
           schema:
@@ -509,11 +470,27 @@ components:
             title: resource not found
             detail: ...
             instance: path/to/corresponding/resource
+    standard405:
+      headers:
+        Correlation-Id:
+          $ref: '#/components/headers/Correlation-Id'
+      description: |
+        Method Not Allowed - The request method is known by the server but is
+        not supported by the target resource.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
+          example:
+            type: /problems/METHOD_NOT_ALLOWED
+            title: method not allowed
+            detail: ...
+            instance: path/to/corresponding/resource
     standard500:
       headers:
         Correlation-Id:
           $ref: '#/components/headers/Correlation-Id'
-      description: Internal Server Error
+      description: Internal Server Error.
       content:
         application/problem+json:
           schema:
@@ -543,7 +520,7 @@ components:
       headers:
         Correlation-Id:
           $ref: '#/components/headers/Correlation-Id'
-      description: Service Unavailable
+      description: Service Unavailable.
       content:
         application/problem+json:
           schema:
@@ -557,7 +534,7 @@ components:
       headers:
         Correlation-Id:
           $ref: '#/components/headers/Correlation-Id'
-      description: Gateway Timeout
+      description: Gateway Timeout.
       content:
         application/problem+json:
           schema:
@@ -573,7 +550,7 @@ components:
           $ref: '#/components/headers/Correlation-Id'
       description: |
         there was a conflict when creating the subscription. e.g., it already
-        exists for the same api and version
+        exists for the same api and version.
       content:
         application/problem+json:
           schema:
@@ -602,3 +579,64 @@ components:
             title: resource not found
             detail: ...
             instance: path/to/corresponding/resource
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: |
+        An opaque string value used for pagination.
+        If omitted, the server assumes:0
+      required: false
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      description: |
+        Maximum number of items to return.
+        If omitted, the server assumes: 1000
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+    correlation_id:
+      name: Correlation-Id
+      in: header
+      description: |
+        Unique ID (defined by the caller) which will be reflected back in the response.
+      required: true
+      schema:
+        type: string
+        maxLength: 64
+    from_event_date:
+      name: from_event_date
+      in: query
+      schema:
+        type: string
+        format: date-time
+        example: 2022-10-26T07:58:30.996+0100
+      description: Select all events from this notification date-time or later.
+    event_subscription_id:
+      name: eventSubscriptionId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Event subscription id parameter.
+      example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
+  headers:
+    Correlation-Id:
+      description: |
+        Client defined ID from request to correlate HTTP requests between a
+        client and a server
+      schema:
+        type: string
+        maxLength: 64
+        example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+    Next-Cursor:
+      description: An opaque string value, or an empty string if there are no more results.
+      required: false
+      schema:
+        type: string
+  securitySchemes: {}

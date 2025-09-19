@@ -4,12 +4,12 @@ info:
   title: event-notification webhook
   description: |
     This is the specification of the 'event-notification' webhook. Disclaimer:
-      - This specification file is to be interpreted as pseudo-code
-      - once the structure and endpoints are agreed<
-        * all mandatory and optional headers will have to be added
-        * all error responses will have to be specified
-        * example requests/responses will need to be improved
-        * missing details in descriptions will have to be added
+    - This specification file is to be interpreted as pseudo-code
+    - once the structure and endpoints are agreed<
+    * all mandatory and optional headers will have to be added
+    * all error responses will have to be specified
+    * example requests/responses will need to be improved
+    * missing details in descriptions will have to be added
   contact:
     email: info@common-api.ch
   license:
@@ -17,7 +17,19 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: https://webhook-notification.common-api.ch
+externalDocs:
+  description: Find out more about SFTI API specifications.
+  url: https://www.common-api.ch
+tags:
+  - name: event notifications
+    description: Event notification operations.
 security: []
 paths:
   /event-notifications:
     $ref: paths/event-notifications.yaml
+components:
+  schemas: {}
+  responses: {}
+  parameters: {}
+  headers: {}
+  securitySchemes: {}

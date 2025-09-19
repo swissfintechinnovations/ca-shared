@@ -10,12 +10,12 @@ get:
     - $ref: ../components/parameters/limit.yaml
     - $ref: ../components/parameters/from_event_date.yaml
   tags:
-    - Event Subscription
+    - event subscriptions
   responses:
     '200':
       description: |
         List of event subscriptions with events that are newer than the specified
-        parameters
+        parameters.
       headers:
         Correlation-Id:
           $ref: ../components/headers/Correlation-Id.yaml
@@ -35,6 +35,8 @@ get:
       $ref: ../components/responses/standard403.yaml
     '404':
       $ref: ../components/responses/standard404.yaml
+    '405':
+      $ref: ../components/responses/standard405.yaml
     '500':
       $ref: ../components/responses/standard500.yaml
     '501':

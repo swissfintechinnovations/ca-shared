@@ -7,10 +7,10 @@ get:
     - $ref: ../components/parameters/limit.yaml
     - $ref: ../components/parameters/correlation_id.yaml
   tags:
-    - Event Subscription
+    - event subscriptions
   responses:
     '200':
-      description: List of EventSubscriptions
+      description: List of event subscriptions.
       headers:
         Correlation-Id:
           $ref: ../components/headers/Correlation-Id.yaml
@@ -21,7 +21,7 @@ get:
           schema:
             type: array
             items:
-              $ref: ../components/schemas/EventNotification.yaml
+              $ref: ../components/schemas/EventSubscription.yaml
     '400':
       $ref: ../components/responses/standard400.yaml
     '401':
@@ -30,6 +30,8 @@ get:
       $ref: ../components/responses/standard403.yaml
     '404':
       $ref: ../components/responses/standard404.yaml
+    '405':
+      $ref: ../components/responses/standard405.yaml
     '500':
       $ref: ../components/responses/standard500.yaml
     '501':
@@ -40,12 +42,12 @@ get:
       $ref: ../components/responses/standard504.yaml
 post:
   summary: Create event subscription
-  description: Create event subscription
+  description: Create event subscription.
   operationId: createEventSubscription
   parameters:
     - $ref: ../components/parameters/correlation_id.yaml
   tags:
-    - Event Subscription
+    - event subscriptions
   requestBody:
     content:
       application/json:
@@ -53,7 +55,7 @@ post:
           $ref: ../components/schemas/EventSubscription.yaml
   responses:
     '201':
-      description: EventSubscription created
+      description: Event subscription created.
       headers:
         Correlation-Id:
           $ref: ../components/headers/Correlation-Id.yaml
@@ -69,6 +71,8 @@ post:
       $ref: ../components/responses/standard403.yaml
     '404':
       $ref: ../components/responses/standard404.yaml
+    '405':
+      $ref: ../components/responses/standard405.yaml
     '409':
       $ref: ../components/responses/standard409.yaml
     '500':

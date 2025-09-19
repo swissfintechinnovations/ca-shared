@@ -4,12 +4,12 @@ info:
   title: event-notification webhook
   description: |
     This is the specification of the 'event-notification' webhook. Disclaimer:
-      - This specification file is to be interpreted as pseudo-code
-      - once the structure and endpoints are agreed<
-        * all mandatory and optional headers will have to be added
-        * all error responses will have to be specified
-        * example requests/responses will need to be improved
-        * missing details in descriptions will have to be added
+    - This specification file is to be interpreted as pseudo-code
+    - once the structure and endpoints are agreed<
+    * all mandatory and optional headers will have to be added
+    * all error responses will have to be specified
+    * example requests/responses will need to be improved
+    * missing details in descriptions will have to be added
   contact:
     email: info@common-api.ch
   license:
@@ -17,6 +17,12 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: https://webhook-notification.common-api.ch
+externalDocs:
+  description: Find out more about SFTI API specifications.
+  url: https://www.common-api.ch
+tags:
+  - name: event notifications
+    description: Event notification operations.
 security: []
 paths:
   /event-notifications:
@@ -27,7 +33,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - Notification Webhook
+        - event notifications
       requestBody:
         content:
           application/json:
@@ -35,7 +41,7 @@ paths:
               $ref: '#/components/schemas/EventNotification'
       responses:
         '202':
-          description: event-notification accepted
+          description: Event notification accepted.
           headers:
             Correlation-Id:
               $ref: '#/components/headers/Correlation-Id'
@@ -56,16 +62,6 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
 components:
-  parameters:
-    correlation_id:
-      name: Correlation-Id
-      in: header
-      description: |
-        Unique ID (defined by the caller) which will be reflected back in the response.
-      required: true
-      schema:
-        type: string
-        maxLength: 64
   schemas:
     EventNotification:
       type: object
@@ -134,15 +130,6 @@ components:
         instance:
           type: string
           example: path/to/corresponding/resource
-  headers:
-    Correlation-Id:
-      description: |
-        Client defined ID from request to correlate HTTP requests between a
-        client and a server
-      schema:
-        type: string
-        maxLength: 64
-        example: f058ebd6-02f7-4d3f-942e-904344e8cde5
   responses:
     standard400:
       headers:
@@ -212,7 +199,7 @@ components:
       headers:
         Correlation-Id:
           $ref: '#/components/headers/Correlation-Id'
-      description: Internal Server Error
+      description: Internal Server Error.
       content:
         application/problem+json:
           schema:
@@ -242,7 +229,7 @@ components:
       headers:
         Correlation-Id:
           $ref: '#/components/headers/Correlation-Id'
-      description: Service Unavailable
+      description: Service Unavailable.
       content:
         application/problem+json:
           schema:
@@ -256,7 +243,7 @@ components:
       headers:
         Correlation-Id:
           $ref: '#/components/headers/Correlation-Id'
-      description: Gateway Timeout
+      description: Gateway Timeout.
       content:
         application/problem+json:
           schema:
@@ -266,3 +253,23 @@ components:
             title: server unavailable
             detail: ...
             instance: path/to/corresponding/resource
+  parameters:
+    correlation_id:
+      name: Correlation-Id
+      in: header
+      description: |
+        Unique ID (defined by the caller) which will be reflected back in the response.
+      required: true
+      schema:
+        type: string
+        maxLength: 64
+  headers:
+    Correlation-Id:
+      description: |
+        Client defined ID from request to correlate HTTP requests between a
+        client and a server
+      schema:
+        type: string
+        maxLength: 64
+        example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+  securitySchemes: {}
