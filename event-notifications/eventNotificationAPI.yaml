@@ -11,15 +11,15 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: https://webhook-notification.common-api.ch
-externalDocs:
-  description: Find out more about SFTI API specifications.
-  url: https://www.common-api.ch
+security: []
 tags:
   - name: event subscriptions
     description: Event subscription operations.
   - name: event notifications
     description: Event notification operations.
-security: []
+externalDocs:
+  description: Find out more about SFTI API specifications.
+  url: https://www.common-api.ch
 paths:
   /event-subscriptions:
     get:
@@ -99,54 +99,6 @@ paths:
           $ref: '#/components/responses/standard405'
         '409':
           $ref: '#/components/responses/standard409'
-        '500':
-          $ref: '#/components/responses/standard500'
-        '501':
-          $ref: '#/components/responses/standard501'
-        '503':
-          $ref: '#/components/responses/standard503'
-        '504':
-          $ref: '#/components/responses/standard504'
-  /event-subscriptions/search:
-    get:
-      summary: Search for event subscriptionIds with pending events
-      description: |
-        Search for EventSubscriptionIds with events that are newer than the
-        specified parameters.
-      operationId: searchEventSubscription
-      parameters:
-        - $ref: '#/components/parameters/correlation_id'
-        - $ref: '#/components/parameters/cursor'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/from_event_date'
-      tags:
-        - event subscriptions
-      responses:
-        '200':
-          description: |
-            List of event subscriptions with events that are newer than the specified
-            parameters.
-          headers:
-            Correlation-Id:
-              $ref: '#/components/headers/Correlation-Id'
-            x-nextCursor:
-              $ref: '#/components/headers/Next-Cursor'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EventSubscription'
-        '400':
-          $ref: '#/components/responses/standard400'
-        '401':
-          $ref: '#/components/responses/standard401'
-        '403':
-          $ref: '#/components/responses/standard403'
-        '404':
-          $ref: '#/components/responses/standard404'
-        '405':
-          $ref: '#/components/responses/standard405'
         '500':
           $ref: '#/components/responses/standard500'
         '501':
@@ -609,14 +561,6 @@ components:
       schema:
         type: string
         maxLength: 64
-    from_event_date:
-      name: from_event_date
-      in: query
-      schema:
-        type: string
-        format: date-time
-        example: 2022-10-26T07:58:30.996+0100
-      description: Select all events from this notification date-time or later.
     event_subscription_id:
       name: eventSubscriptionId
       in: path
@@ -625,6 +569,14 @@ components:
         type: string
       description: Event subscription id parameter.
       example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
+    from_event_date:
+      name: from_event_date
+      in: query
+      schema:
+        type: string
+        format: date-time
+        example: 2022-10-26T07:58:30.996+0100
+      description: Select all events from this notification date-time or later.
   headers:
     Correlation-Id:
       description: |
