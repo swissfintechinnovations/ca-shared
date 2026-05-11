@@ -11,5 +11,5 @@ content:
     example:
       type: /problems/INVALID_TOKEN
       title: the token was invalid
-      detail: ...
+      detail: ..
       instance: path/to/corresponding/resource

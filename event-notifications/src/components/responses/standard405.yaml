@@ -11,5 +11,5 @@ content:
     example:
       type: /problems/METHOD_NOT_ALLOWED
       title: method not allowed
-      detail: ...
+      detail: ..
       instance: path/to/corresponding/resource

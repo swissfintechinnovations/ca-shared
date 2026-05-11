@@ -4,7 +4,7 @@ info:
   title: event-notification plugin
   description: |
     This specification defines the SFTI Event Notification API standard for secure, and standardized event-based communication
-    between financial ecosystem participants. As a cross-stream specification, it provides a generic event notification 
+    between financial ecosystem participants. As a cross-stream specification, it provides a generic event notification
     framework used across multiple SFTI repositories, while the stream-specific event types and payload definitions are defined
     and maintained within the respective stream repositories.
   contact:
@@ -21,7 +21,7 @@ tags:
   - name: event subscriptions
     description: |
       Event subscription operations in the context of OAuth2 consent authentication. One subscription is bound to exactly
-      one consent and supports create, retrieve, update and delete operations. Multiple event types are managed within the single 
+      one consent and supports create, retrieve, update and delete operations. Multiple event types are managed within the single
       subscription resource.
   - name: event notifications aggregated polling
     description: |

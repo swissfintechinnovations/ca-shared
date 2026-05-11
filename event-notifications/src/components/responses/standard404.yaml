@@ -10,5 +10,5 @@ content:
     example:
       type: /problems/SUBSCRIPTION_NOT_FOUND
       title: resource not found
-      detail: ...
+      detail: ..
       instance: path/to/corresponding/resource

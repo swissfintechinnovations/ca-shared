@@ -11,5 +11,5 @@ content:
     example:
       type: /problems/INSUFFICIENT_PRIVILEGES
       title: current user has insufficient privileges
-      detail: ...
+      detail: ..
       instance: path/to/corresponding/resource

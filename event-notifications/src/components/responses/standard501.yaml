@@ -11,5 +11,5 @@ content:
     example:
       type: /problems/TECHNICAL_ERROR
       title: unexpected error occurred
-      detail: ...
+      detail: ..
       instance: path/to/corresponding/resource

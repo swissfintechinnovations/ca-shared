@@ -14,5 +14,5 @@ content:
     example:
       type: /problems/TOO_MANY_REQUESTS
       title: resource not found
-      detail: ...
+      detail: ..
       instance: path/to/corresponding/resource
