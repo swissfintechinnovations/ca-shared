@@ -6,7 +6,7 @@ on:
     inputs:
       filenames:
         type: string
-        default: '*.yaml'
+        default: '*/*.yaml'
         description: 'Files to be linted (list of files sperated by a whitespace). Default: *.yaml'
 
 jobs:

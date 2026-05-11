@@ -1,6 +1,6 @@
 parameters:
   - $ref: ../components/parameters/event_subscription_id.yaml
-  - $ref: ../components/parameters/from_event_date.yaml
+  - $ref: ../components/parameters/from_event_date_time.yaml
   - $ref: ../components/parameters/cursor.yaml
   - $ref: ../components/parameters/limit.yaml
 get:
