@@ -15,8 +15,9 @@ externalDocs:
   description: Find out more about SFTI API specifications.
   url: https://www.common-api.ch
 tags:
-  - name: event notifications
-    description: Event notification operations.
+  - name: event notifications aggregated polling
+    description: |
+      Aggregated polling operations in the context of Service User authentication, used for catch-up retrieval of event notifications.
 security: []
 paths:
   /event-notifications:
