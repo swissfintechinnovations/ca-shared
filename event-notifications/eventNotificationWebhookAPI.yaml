@@ -3,7 +3,7 @@ info:
   version: 1.0.0
   title: event-notification webhook
   description: |
-    This is the Service User implementation of the event notification framework to receive notification events via webhook. 
+    This is the Service User implementation of the event notification framework to receive notification events via webhook.
   contact:
     email: info@common-api.ch
   license:
