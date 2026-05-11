@@ -5,7 +5,7 @@ post:
   parameters:
     - $ref: ../components/parameters/correlation_id.yaml
   tags:
-    - event notification aggregated polling
+    - event notificationsaggregated polling
   requestBody:
     content:
       application/json:

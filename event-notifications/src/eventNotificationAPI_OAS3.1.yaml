@@ -31,7 +31,7 @@ tags:
       Aggregated polling operations in the context of Service User authentication, used for catch-up retrieval of event notifications.
 security: []
 webhooks:
-  eventNotification:
+  event-notification:
     $ref: webhooks/event-notifications.yaml
 paths:
   /event-subscriptions:

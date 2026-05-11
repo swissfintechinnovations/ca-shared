@@ -28,7 +28,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - event notification aggregated polling
+        - event notifications aggregated polling
       requestBody:
         content:
           application/json:
