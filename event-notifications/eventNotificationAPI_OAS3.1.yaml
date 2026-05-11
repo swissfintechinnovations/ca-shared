@@ -242,7 +242,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - event notifications
+        - event notifications aggregated polling
       responses:
         '200':
           description: List of event notifications.
@@ -278,7 +278,7 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
 webhooks:
-  eventNotification:
+  event-notification:
     post:
       summary: Send notification
       description: Send notification to consumer.
@@ -286,7 +286,7 @@ webhooks:
       parameters:
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - event notifications aggregated polling
+        - event notificationsaggregated polling
       requestBody:
         content:
           application/json:

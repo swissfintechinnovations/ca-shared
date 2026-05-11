@@ -239,7 +239,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - event notifications
+        - event notifications aggregated polling
       responses:
         '200':
           description: List of event notifications.
