@@ -380,7 +380,7 @@ components:
           example:
             type: /problems/INVALID_PAYLOAD
             title: the request body was invalid
-            detail: '...'
+            detail: ..
             instance: path/to/corresponding/resource
     standard401:
       headers:
@@ -396,7 +396,7 @@ components:
           example:
             type: /problems/INVALID_TOKEN
             title: the token was invalid
-            detail: '...'
+            detail: ..
             instance: path/to/corresponding/resource
     standard403:
       headers:
@@ -412,7 +412,7 @@ components:
           example:
             type: /problems/INSUFFICIENT_PRIVILEGES
             title: current user has insufficient privileges
-            detail: '...'
+            detail: ..
             instance: path/to/corresponding/resource
     standard404:
       headers:
@@ -427,7 +427,7 @@ components:
           example:
             type: /problems/SUBSCRIPTION_NOT_FOUND
             title: resource not found
-            detail: '...'
+            detail: ..
             instance: path/to/corresponding/resource
     standard405:
       headers:
@@ -443,7 +443,7 @@ components:
           example:
             type: /problems/METHOD_NOT_ALLOWED
             title: method not allowed
-            detail: '...'
+            detail: ..
             instance: path/to/corresponding/resource
     standard409:
       headers:
@@ -459,7 +459,7 @@ components:
           example:
             type: /problems/SUBSCRIPTION_ALREADY_EXISTS
             title: resource not found
-            detail: '...'
+            detail: ..
             instance: path/to/corresponding/resource
     standard429:
       headers:
@@ -478,7 +478,7 @@ components:
           example:
             type: /problems/TOO_MANY_REQUESTS
             title: resource not found
-            detail: '...'
+            detail: ..
             instance: path/to/corresponding/resource
     standard500:
       headers:
@@ -492,7 +492,7 @@ components:
           example:
             type: /problems/TECHNICAL_ERROR
             title: unexpected error occurred
-            detail: '...'
+            detail: ..
             instance: path/to/corresponding/resource
     standard501:
       headers:
@@ -508,7 +508,7 @@ components:
           example:
             type: /problems/TECHNICAL_ERROR
             title: unexpected error occurred
-            detail: '...'
+            detail: ..
             instance: path/to/corresponding/resource
     standard503:
       headers:
@@ -522,7 +522,7 @@ components:
           example:
             type: /problems/TECHNICAL_ERROR
             title: server unavailable
-            detail: '...'
+            detail: ..
             instance: path/to/corresponding/resource
     standard504:
       headers:
@@ -536,7 +536,7 @@ components:
           example:
             type: /problems/TECHNICAL_ERROR
             title: server unavailable
-            detail: '...'
+            detail: ..
             instance: path/to/corresponding/resource
   parameters:
     correlation_id:
