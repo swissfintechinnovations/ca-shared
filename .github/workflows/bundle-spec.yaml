@@ -7,4 +7,6 @@ on:
 jobs:
   bundle-api:
     uses: swissfintechinnovations/.github/.github/workflows/reusable-bundle-workflow.yaml@main
+    with:
+      skip-preprocessing: true
     secrets: inherit

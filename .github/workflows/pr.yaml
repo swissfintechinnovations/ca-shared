@@ -10,6 +10,8 @@ on:
 jobs:
   bundle:
     uses: swissfintechinnovations/.github/.github/workflows/reusable-bundle-workflow.yaml@main
+    with:
+      skip-preprocessing: true
     secrets: inherit
 
   yaml-lint-src:
