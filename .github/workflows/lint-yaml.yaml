@@ -15,4 +15,4 @@ jobs:
   yaml-lint:
     uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-yaml-workflow.yaml@main
     with:
-      filenames: ${{ github.event.inputs.filenames || '*.yaml' }}
+      filenames: ${{ github.event.inputs.filenames || '*/*.yaml' }}

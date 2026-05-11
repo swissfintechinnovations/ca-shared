@@ -13,4 +13,4 @@ jobs:
   openapi-lint:
     uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-openapi-workflow.yaml@main
     with:
-      filenames: ${{ github.event.inputs.filenames || '*.yaml' }}
+      filenames: ${{ github.event.inputs.filenames || '*/*.yaml' }}
