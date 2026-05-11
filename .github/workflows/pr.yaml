@@ -12,7 +12,7 @@ jobs:
     uses: swissfintechinnovations/.github/.github/workflows/reusable-bundle-workflow.yaml@main
     with:
       skip-preprocessing: true
-      skip-autoformating: true
+      skip-autoformatting: true
     secrets: inherit
 
   yaml-lint-src:
