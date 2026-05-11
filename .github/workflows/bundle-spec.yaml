@@ -8,6 +8,5 @@ jobs:
   bundle-api:
     uses: swissfintechinnovations/.github/.github/workflows/reusable-bundle-workflow.yaml@main
     with:
-      skip-preprocessing: true
-      skip-autoformatting: true
+      base-dir: 'event-notifications'
     secrets: inherit
