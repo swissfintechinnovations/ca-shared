@@ -1,0 +1,10 @@
+apis:
+  event-notification:
+    root: ../event-notifications/src/eventNotificationAPI.yaml
+    output: ../event-notifications/eventNotificationAPI.yaml
+  event-notification-webhook:
+    root: ../event-notifications/src/eventNotificationWebhookAPI.yaml
+    output: ../event-notifications/eventNotificationWebhookAPI.yaml
+  event-notification-OAS3.1:
+    root: ../event-notifications/src/eventNotificationAPI_OAS3.1.yaml
+    output: ../event-notifications/eventNotificationAPI_OAS3.1.yaml

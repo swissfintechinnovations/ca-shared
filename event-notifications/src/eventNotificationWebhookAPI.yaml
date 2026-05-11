@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: event-notification webhook
+  description: |
+    This is the Service User implementation of the event notification framework to receive notification events via webhook.
+  contact:
+    email: info@common-api.ch
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: https://webhook-notification.common-api.ch
+externalDocs:
+  description: Find out more about SFTI API specifications.
+  url: https://www.common-api.ch
+tags:
+  - name: event notifications aggregated polling
+    description: |
+      Aggregated polling operations in the context of Service User authentication, used for catch-up retrieval of event notifications.
+security: []
+paths:
+  /event-notifications:
+    $ref: webhooks/event-notifications.yaml
+components:
+  schemas: {}
+  responses: {}
+  parameters: {}
+  headers: {}
+  securitySchemes: {}
