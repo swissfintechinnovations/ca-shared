@@ -18,12 +18,12 @@ externalDocs:
   description: Find out more about SFTI API specifications.
   url: https://www.common-api.ch
 tags:
-  - name: event subscription
+  - name: event subscriptions
     description: |
       Event subscription operations in the context of OAuth2 consent authentication. One subscription is bound to exactly
       one consent and supports create, retrieve, update and delete operations. Multiple event types are managed within the single 
       subscription resource.
-  - name: event-notification-aggregated-polling
+  - name: event notifications aggregated polling
     description: |
       Aggregated polling operations in the context of Service User authentication, used for catch-up retrieval of event notifications.
 security: []
