@@ -3,7 +3,13 @@ info:
   version: 1.0.0
   title: event-notification plugin
   description: |
-    This is the specification of the 'event-notification' plugin.
+    This OAS 3.1 specification defines the SFTI Event Notification API standard for secure, and standardized event-based communication
+    between financial ecosystem participants. As a cross-stream specification, it provides a generic event notification 
+    framework used across multiple SFTI repositories, while the stream-specific event types and payload definitions are defined
+    and maintained within the respective stream repositories.
+
+    This specification is semantically equivalent to the SPI specifications defined in eventNotificationAPI.yaml and 
+    eventNotificationWebhookAPI.yaml, but consolidated into a single file to leverage the enhanced capabilities of the OpenAPI 3.1 standard.
   contact:
     email: info@common-api.ch
   license:
@@ -11,15 +17,19 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: https://webhook-notification.common-api.ch
-security: []
-tags:
-  - name: event subscriptions
-    description: Event subscription operations.
-  - name: event notifications
-    description: Event notification operations.
 externalDocs:
   description: Find out more about SFTI API specifications.
   url: https://www.common-api.ch
+tags:
+  - name: event subscription
+    description: |
+      Event subscription operations in the context of OAuth2 consent authentication. One subscription is bound to exactly
+      one consent and supports create, retrieve, update and delete operations. Multiple event types are managed within the single 
+      subscription resource.
+  - name: event notification aggregated polling
+    description: |
+      Aggregated polling operations in the context of Service User authentication, used for catch-up retrieval of event notifications.
+security: []
 paths:
   /event-subscriptions:
     get:
@@ -222,7 +232,7 @@ paths:
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
     parameters:
       - $ref: '#/components/parameters/event_subscription_id'
-      - $ref: '#/components/parameters/from_event_date'
+      - $ref: '#/components/parameters/from_event_date_time'
       - $ref: '#/components/parameters/cursor'
       - $ref: '#/components/parameters/limit'
     get:
@@ -276,7 +286,7 @@ webhooks:
       parameters:
         - $ref: '#/components/parameters/correlation_id'
       tags:
-        - event notifications
+        - event notification aggregated polling
       requestBody:
         content:
           application/json:
@@ -306,18 +316,79 @@ webhooks:
           $ref: '#/components/responses/standard504'
 components:
   schemas:
-    EventSubscription:
+    CommonErrorResponse:
+      title: Common Error Response
       type: object
-      description: Schema of an event subscription entity.
-      required:
-        - eventTypes
       properties:
-        id:
+        detail:
           type: string
-          description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
+          example: Detailed problem description with respect to the current request
+        instance:
+          type: string
+          example: path/to/corresponding/resource
+        title:
+          type: string
+          example: This is the general problem description
+        type:
+          $ref: '#/components/schemas/CommonErrorType'
+    CommonErrorType:
+      title: Common Error Type
+      description: Error Types for commonErrorResponse. See Appendix for detailed information.
+      type: string
+      enum:
+        - /problems/INVALID_PAYLOAD
+        - /problems/MALFORMED_PAYLOAD
+        - /problems/TECHNICAL_ERROR
+        - /problems/SUBSCRIPTION_NOT_FOUND
+        - /problems/INSUFFICIENT_PRIVILEGES
+        - /problems/INVALID_TOKEN
+        - /problems/SUBSCRIPTION_ALREADY_EXISTS
+        - /problems/TOO_MANY_REQUESTS
+        - /problems/METHOD_NOT_ALLOWED
+      example: /problems/TECHNICAL_ERROR
+    EventNotification:
+      description: Schema of an event notification entity.
+      type: object
+      required:
+        - eventSubscriptionId
+        - eventType
+        - id
+        - resourceLink
+      properties:
+        eventSubscriptionId:
+          type: string
+          description: Id of the subscription that caused the event to be triggered.
           readOnly: true
           maxLength: 36
           example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+        eventType:
+          type: string
+          example: order:partiallyFilled
+        id:
+          type: string
+          description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
+          example: 120066c9-58a1-432b-aa60-712fae7f143e
+        resourceLink:
+          type: string
+          description: |
+            The resourceLink is an absolute or relative URL reference to the specific resource or object that triggered the webhook event.
+            This link provides immediate access to the full details of the affected item in the source system.
+          example: /orders/e6751a48-0819-4482-98a4-760453ba770d
+        creationDateTime:
+          type: string
+          format: date-time
+          description: Timestamp of the creation of the event notification.
+          example: 2022-10-26T07:58:30.996+0100
+        version:
+          type: string
+          description: Version of the notification schema.
+          example: '1.0'
+    EventSubscription:
+      description: Schema of an event subscription entity.
+      type: object
+      required:
+        - eventTypes
+      properties:
         eventTypes:
           type: array
           description: List of event types subject to subscription.
@@ -330,73 +401,12 @@ components:
             Endpoint provided by the client (subscriber) where the server (publisher)
             can send asynchronous event notifications.
           example: https://ttp.com/API/notifications/
-    CommonErrorType:
-      title: Common Error Type
-      type: string
-      description: Error Types for commonErrorResponse. See Appendix for detailed information.
-      example: /problems/TECHNICAL_ERROR
-      enum:
-        - /problems/INVALID_PAYLOAD
-        - /problems/MALFORMED_PAYLOAD
-        - /problems/TECHNICAL_ERROR
-        - /problems/SUBSCRIPTION_NOT_FOUND
-        - /problems/INSUFFICIENT_PRIVILEGES
-        - /problems/INVALID_TOKEN
-        - /problems/SUBSCRIPTION_ALREADY_EXISTS
-        - /problems/TOO_MANY_REQUESTS
-        - /problems/METHOD_NOT_ALLOWED
-    CommonErrorResponse:
-      title: Common Error Response
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/CommonErrorType'
-        title:
-          type: string
-          example: This is the general problem description
-        detail:
-          type: string
-          example: Detailed problem description with respect to the current request
-        instance:
-          type: string
-          example: path/to/corresponding/resource
-    EventNotification:
-      type: object
-      description: Schema of an event notification entity.
-      required:
-        - id
-        - eventType
-        - eventSubscriptionId
-        - resourceLink
-      properties:
         id:
           type: string
           description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
-          example: 120066c9-58a1-432b-aa60-712fae7f143e
-        version:
-          type: string
-          description: Version of the notification schema.
-          example: '1.0'
-        eventType:
-          type: string
-          example: order:partiallyFilled
-        eventSubscriptionId:
-          type: string
-          description: Id of the subscription that caused the event to be triggered.
           readOnly: true
           maxLength: 36
           example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
-        resourceLink:
-          type: string
-          description: |
-            The resourceLink is an absolute or relative URL reference to the specific resource or object that triggered the webhook event.
-            This link provides immediate access to the full details of the affected item in the source system.
-          example: /orders/e6751a48-0819-4482-98a4-760453ba770d
-        creationDateTime:
-          type: string
-          format: date-time
-          description: Timestamp of the creation of the event notification.
-          example: 2022-10-26T07:58:30.996+0100
   responses:
     standard400:
       headers:
@@ -410,7 +420,7 @@ components:
           example:
             type: /problems/INVALID_PAYLOAD
             title: the request body was invalid
-            detail: ...
+            detail: '...'
             instance: path/to/corresponding/resource
     standard401:
       headers:
@@ -426,7 +436,7 @@ components:
           example:
             type: /problems/INVALID_TOKEN
             title: the token was invalid
-            detail: ...
+            detail: '...'
             instance: path/to/corresponding/resource
     standard403:
       headers:
@@ -442,7 +452,7 @@ components:
           example:
             type: /problems/INSUFFICIENT_PRIVILEGES
             title: current user has insufficient privileges
-            detail: ...
+            detail: '...'
             instance: path/to/corresponding/resource
     standard404:
       headers:
@@ -457,7 +467,7 @@ components:
           example:
             type: /problems/SUBSCRIPTION_NOT_FOUND
             title: resource not found
-            detail: ...
+            detail: '...'
             instance: path/to/corresponding/resource
     standard405:
       headers:
@@ -473,65 +483,7 @@ components:
           example:
             type: /problems/METHOD_NOT_ALLOWED
             title: method not allowed
-            detail: ...
-            instance: path/to/corresponding/resource
-    standard500:
-      headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
-      description: Internal Server Error.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/CommonErrorResponse'
-          example:
-            type: /problems/TECHNICAL_ERROR
-            title: unexpected error occurred
-            detail: ...
-            instance: path/to/corresponding/resource
-    standard501:
-      headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
-      description: |
-        Not Implemented - The request method is not supported by the server and
-        cannot be handled.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/CommonErrorResponse'
-          example:
-            type: /problems/TECHNICAL_ERROR
-            title: unexpected error occurred
-            detail: ...
-            instance: path/to/corresponding/resource
-    standard503:
-      headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
-      description: Service Unavailable.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/CommonErrorResponse'
-          example:
-            type: /problems/TECHNICAL_ERROR
-            title: server unavailable
-            detail: ...
-            instance: path/to/corresponding/resource
-    standard504:
-      headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
-      description: Gateway Timeout.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/CommonErrorResponse'
-          example:
-            type: /problems/TECHNICAL_ERROR
-            title: server unavailable
-            detail: ...
+            detail: '...'
             instance: path/to/corresponding/resource
     standard409:
       headers:
@@ -547,7 +499,7 @@ components:
           example:
             type: /problems/SUBSCRIPTION_ALREADY_EXISTS
             title: resource not found
-            detail: ...
+            detail: '...'
             instance: path/to/corresponding/resource
     standard429:
       headers:
@@ -566,21 +518,104 @@ components:
           example:
             type: /problems/TOO_MANY_REQUESTS
             title: resource not found
-            detail: ...
+            detail: '...'
+            instance: path/to/corresponding/resource
+    standard500:
+      headers:
+        Correlation-Id:
+          $ref: '#/components/headers/Correlation-Id'
+      description: Internal Server Error.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
+          example:
+            type: /problems/TECHNICAL_ERROR
+            title: unexpected error occurred
+            detail: '...'
+            instance: path/to/corresponding/resource
+    standard501:
+      headers:
+        Correlation-Id:
+          $ref: '#/components/headers/Correlation-Id'
+      description: |
+        Not Implemented - The request method is not supported by the server and
+        cannot be handled.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
+          example:
+            type: /problems/TECHNICAL_ERROR
+            title: unexpected error occurred
+            detail: '...'
+            instance: path/to/corresponding/resource
+    standard503:
+      headers:
+        Correlation-Id:
+          $ref: '#/components/headers/Correlation-Id'
+      description: Service Unavailable.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
+          example:
+            type: /problems/TECHNICAL_ERROR
+            title: server unavailable
+            detail: '...'
+            instance: path/to/corresponding/resource
+    standard504:
+      headers:
+        Correlation-Id:
+          $ref: '#/components/headers/Correlation-Id'
+      description: Gateway Timeout.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
+          example:
+            type: /problems/TECHNICAL_ERROR
+            title: server unavailable
+            detail: '...'
             instance: path/to/corresponding/resource
   parameters:
+    correlation_id:
+      in: header
+      name: Correlation-Id
+      description: |
+        Unique ID (defined by the caller) which will be reflected back in the response.
+      required: true
+      schema:
+        type: string
+        maxLength: 64
     cursor:
-      name: cursor
       in: query
+      name: cursor
       description: |
         An opaque string value used for pagination.
         If omitted, the server assumes:0
       required: false
       schema:
         type: string
-    limit:
-      name: limit
+    event_subscription_id:
+      in: path
+      name: eventSubscriptionId
+      description: Event subscription id parameter.
+      required: true
+      schema:
+        type: string
+      example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
+    from_event_date_time:
       in: query
+      name: from_event_date_time
+      description: Select all events from this notification date-time or later.
+      schema:
+        type: string
+        format: date-time
+        example: 2022-10-26T07:58:30.996+0100
+    limit:
+      in: query
+      name: limit
       description: |
         Maximum number of items to return.
         If omitted, the server assumes: 1000
@@ -589,31 +624,6 @@ components:
         type: integer
         format: int32
         minimum: 1
-    correlation_id:
-      name: Correlation-Id
-      in: header
-      description: |
-        Unique ID (defined by the caller) which will be reflected back in the response.
-      required: true
-      schema:
-        type: string
-        maxLength: 64
-    event_subscription_id:
-      name: eventSubscriptionId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Event subscription id parameter.
-      example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
-    from_event_date:
-      name: from_event_date
-      in: query
-      schema:
-        type: string
-        format: date-time
-        example: 2022-10-26T07:58:30.996+0100
-      description: Select all events from this notification date-time or later.
   headers:
     Correlation-Id:
       description: |
