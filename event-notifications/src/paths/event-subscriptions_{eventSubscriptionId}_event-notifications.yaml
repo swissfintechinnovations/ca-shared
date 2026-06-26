@@ -1,16 +1,15 @@
-parameters:
-  - $ref: ../components/parameters/event_subscription_id.yaml
-  - $ref: ../components/parameters/from_event_date_time.yaml
-  - $ref: ../components/parameters/cursor.yaml
-  - $ref: ../components/parameters/limit.yaml
 get:
+  tags:
+    - event notifications aggregated polling
   summary: Get event notifications list
   description: Get aggregated event notification list.
   operationId: listEventSubscriptionEventNotifications
   parameters:
+    - $ref: ../components/parameters/cursor.yaml
+    - $ref: ../components/parameters/limit.yaml
     - $ref: ../components/parameters/correlation_id.yaml
-  tags:
-    - event notifications aggregated polling
+    - $ref: ../components/parameters/event_subscription_id.yaml
+    - $ref: ../components/parameters/from_event_date_time.yaml
   responses:
     '200':
       description: List of event notifications.

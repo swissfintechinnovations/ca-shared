@@ -1,4 +1,6 @@
 get:
+  tags:
+    - event subscriptions
   summary: Get event subscriptions
   description: Get list of event subscriptions.
   operationId: listEventSubscriptions
@@ -6,8 +8,6 @@ get:
     - $ref: ../components/parameters/cursor.yaml
     - $ref: ../components/parameters/limit.yaml
     - $ref: ../components/parameters/correlation_id.yaml
-  tags:
-    - event subscriptions
   responses:
     '200':
       description: List of event subscriptions.
@@ -41,13 +41,13 @@ get:
     '504':
       $ref: ../components/responses/standard504.yaml
 post:
+  tags:
+    - event subscriptions
   summary: Create event subscription
   description: Create event subscription.
   operationId: createEventSubscription
   parameters:
     - $ref: ../components/parameters/correlation_id.yaml
-  tags:
-    - event subscriptions
   requestBody:
     content:
       application/json:

@@ -1,12 +1,12 @@
 get:
+  tags:
+    - event subscriptions
   summary: Get event subscription
   description: Get event subscription by id.
+  operationId: getEventSubscription
   parameters:
     - $ref: ../components/parameters/event_subscription_id.yaml
     - $ref: ../components/parameters/correlation_id.yaml
-  operationId: getEventSubscription
-  tags:
-    - event subscriptions
   responses:
     '200':
       description: Get event subscriptions.
@@ -36,14 +36,14 @@ get:
     '504':
       $ref: ../components/responses/standard504.yaml
 put:
+  tags:
+    - event subscriptions
   summary: Update event subscription
   description: Update event subscription.
   operationId: updateEventSubscription
   parameters:
     - $ref: ../components/parameters/event_subscription_id.yaml
     - $ref: ../components/parameters/correlation_id.yaml
-  tags:
-    - event subscriptions
   requestBody:
     content:
       application/json:
@@ -79,14 +79,14 @@ put:
     '504':
       $ref: ../components/responses/standard504.yaml
 delete:
+  tags:
+    - event subscriptions
   summary: Delete event subscription
   description: Delete event subscription by id.
   operationId: deleteEventSubscription
   parameters:
     - $ref: ../components/parameters/event_subscription_id.yaml
     - $ref: ../components/parameters/correlation_id.yaml
-  tags:
-    - event subscriptions
   responses:
     '204':
       description: Successfully deleted.
