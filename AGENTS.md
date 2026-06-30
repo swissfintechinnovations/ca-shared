@@ -1,9 +1,9 @@
 # AI Agent Instructions
 
-> Stream/topic: `<<FILL IN: e.g. payment, mortgage, card, pension, wealth>>`
-> Repo: `swissfintechinnovations/ca-<<topic>>` · OpenAPI version: `<<FILL IN: 3.0 or 3.1>>`
-> Bundled spec at repo root: `<<topic>>API.yaml`
-> Repo with config files, reusable workflows, and wiki: `swissfintechinnovations/.github`
+> Stream/topic: `<<FILL IN: e.g. payment, mortgage, card, pension, wealth>>`  
+> Repo: `swissfintechinnovations/ca-<<topic>>` · OpenAPI version: `<<FILL IN: 3.0 or 3.1>>`  
+> Bundled spec at repo root: `<<topic>>API.yaml`  
+> Repo with config files, reusable workflows, and wiki: `swissfintechinnovations/.github`  
 
 ## What you are allowed to edit
 - **Edit only** the split source components under `src/components/{schemas,parameters,headers,responses,...}`.
