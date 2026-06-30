@@ -1,5 +1,6 @@
 # AI Agent Instructions
 
+## Stream specific information
 > Stream/topic: `<<FILL IN: e.g. payment, mortgage, card, pension, wealth>>`  
 > Repo: `swissfintechinnovations/ca-<<topic>>` · OpenAPI version: `<<FILL IN: 3.0 or 3.1>>`  
 > Bundled spec at repo root: `<<topic>>API.yaml`  
@@ -7,10 +8,8 @@
 
 ## What you are allowed to edit
 - **Edit only** the split source components under `src/components/{schemas,parameters,headers,responses,...}`.
-- **Do not edit** the bundled root file `<<topic>>API.yaml` — it is generated from `src/*` by the
-  Redocly bundle workflow on PR. Editing it directly will be overwritten.
+- **Do not edit** the bundled root file — it is generated from `src/*` by the Redocly bundle workflow on PR. Editing it directly will be overwritten.
 - **Do not touch** anything in `.github/` or the reusable workflows in `swissfintechinnovations/.github`.
-- **Do not rename** `bundle-spec.yaml` — other workflows depend on its filename.
 
 ## Editing rules and patterns
 - Only do small, focused changes, not large refactors.
@@ -20,10 +19,8 @@
 - Error responses follow RFC7807: `application/problem+json` and use `src/components/responses/standard400.yaml` and `standard500.yaml`; include headers like `X-Correlation-ID` and `Content-Language` where applicable.
 - Header/param conventions: client/correlation/agent headers are defined under `src/components/parameters/header` (e.g. `client.yaml`, `correlation.yaml`, `agent.yaml`) and should be referenced consistently.
 
-## Naming convention & style guide (repo-specific essentials)
-The full rules are in the org wiki — **read these first if you have web access**, otherwise follow the conventions already visible in this repo:
-- Style Guide: [wiki page](https://github.com/swissfintechinnovations/.github/wiki/Style-Guide-Common-APIs)
-- Naming Conventions: [wiki page](https://github.com/swissfintechinnovations/.github/wiki/Naming-Conventions)
+## Naming convention & style guide
+The full rules are in the `swissfintechinnovations/.github` wiki — **read these once if you have web access**, otherwise follow the conventions already visible in this repo.
 
 Hard rules for this repo:
 - `camelCase` for property names, `PascalCase` for schema/type names, `kebab-case` for URL path segments.
@@ -41,10 +38,12 @@ Hard rules for this repo:
 - There are various workflows (see swissfintechinnovations/.github wiki `Github Actions`); for working with the repo, only the following are important:
     1. SFTI Bundle Workflow: bundles files in `src/*` to a full OAS compliant API specification on root level `/`
     2. SFTI Linter Workflows: Checking the files against the SFTI naming convention, SFTI style guides and OAS specifications (SFTI Lint PRs, SFTI Lint Specifications: OpenAPI Compliance, SFTI Lint Specifications: Yaml Compliance)
-- Bundle job caution: Do not rename `bundle-spec.yaml` since other workflows depend on its filename.
 - Linting runs against source files and the bundled output. `lint-yaml.yaml` and `lint-openapi.yaml` call reusable workflows in `swissfintechinnovations/.github` (inspect that repo to see exact linters/versions used).
 
 ## Local checks before opening a PR
+Before pushing, check Linter rules and run local commands, if possible:
+- Style Guide: [wiki page](https://github.com/swissfintechinnovations/.github/wiki/Style-Guide-Common-APIs)
+- Naming Conventions: [wiki page](https://github.com/swissfintechinnovations/.github/wiki/Naming-Conventions)
 > Confirm the exact scripts against the workflow files — adjust if they differ.
 - Bundle:  `npx @redocly/cli bundle --config .github/redocly.yaml`
 - Lint OpenAPI:  `npx @redocly/cli lint --config=github/.github/redocly.yaml <<topic>>API.yaml`
@@ -53,9 +52,11 @@ Hard rules for this repo:
 - The same checks run in CI via these workflows (mirror them locally):
   `SFTI Bundle`, `SFTI Lint PRs`, `SFTI Lint Specifications: OpenAPI Compliance`,
   `SFTI Lint Specifications: Yaml Compliance`.
+Make sure the bundle command works and fix all linter errors and warnings. 
 
 ## PR review checklist for agents
 - All new schemas/params have descriptive titles and follow the naming pattern where applicable (see .github wiki).
 - `$ref` paths are correct for the file layout and remain valid after bundling (run the bundler workflow locally or via CI to confirm).
 - Responses still include standard `400/500` responses and headers as applicable.
 - No breaking semantic changes to tags, paths, or required fields without a clear changelog entry.
+- run local commands and fix all issues
