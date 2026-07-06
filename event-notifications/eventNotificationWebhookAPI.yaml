@@ -22,13 +22,13 @@ security: []
 paths:
   /event-notifications:
     post:
+      tags:
+        - event notifications aggregated polling
       summary: Send notification
       description: Send notification to consumer.
       operationId: sendEventNotification
       parameters:
         - $ref: '#/components/parameters/correlation_id'
-      tags:
-        - event notifications aggregated polling
       requestBody:
         content:
           application/json:

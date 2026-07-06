@@ -30,6 +30,8 @@ security: []
 paths:
   /event-subscriptions:
     get:
+      tags:
+        - event subscriptions
       summary: Get event subscriptions
       description: Get list of event subscriptions.
       operationId: listEventSubscriptions
@@ -37,8 +39,6 @@ paths:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/correlation_id'
-      tags:
-        - event subscriptions
       responses:
         '200':
           description: List of event subscriptions.
@@ -72,13 +72,13 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
     post:
+      tags:
+        - event subscriptions
       summary: Create event subscription
       description: Create event subscription.
       operationId: createEventSubscription
       parameters:
         - $ref: '#/components/parameters/correlation_id'
-      tags:
-        - event subscriptions
       requestBody:
         content:
           application/json:
@@ -116,14 +116,14 @@ paths:
           $ref: '#/components/responses/standard504'
   /event-subscriptions/{eventSubscriptionId}:
     get:
+      tags:
+        - event subscriptions
       summary: Get event subscription
       description: Get event subscription by id.
+      operationId: getEventSubscription
       parameters:
         - $ref: '#/components/parameters/event_subscription_id'
         - $ref: '#/components/parameters/correlation_id'
-      operationId: getEventSubscription
-      tags:
-        - event subscriptions
       responses:
         '200':
           description: Get event subscriptions.
@@ -153,14 +153,14 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
     put:
+      tags:
+        - event subscriptions
       summary: Update event subscription
       description: Update event subscription.
       operationId: updateEventSubscription
       parameters:
         - $ref: '#/components/parameters/event_subscription_id'
         - $ref: '#/components/parameters/correlation_id'
-      tags:
-        - event subscriptions
       requestBody:
         content:
           application/json:
@@ -196,14 +196,14 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
     delete:
+      tags:
+        - event subscriptions
       summary: Delete event subscription
       description: Delete event subscription by id.
       operationId: deleteEventSubscription
       parameters:
         - $ref: '#/components/parameters/event_subscription_id'
         - $ref: '#/components/parameters/correlation_id'
-      tags:
-        - event subscriptions
       responses:
         '204':
           description: Successfully deleted.
@@ -227,19 +227,18 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
-    parameters:
-      - $ref: '#/components/parameters/event_subscription_id'
-      - $ref: '#/components/parameters/from_event_date_time'
-      - $ref: '#/components/parameters/cursor'
-      - $ref: '#/components/parameters/limit'
     get:
+      tags:
+        - event notifications aggregated polling
       summary: Get event notifications list
       description: Get aggregated event notification list.
       operationId: listEventSubscriptionEventNotifications
       parameters:
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/correlation_id'
-      tags:
-        - event notifications aggregated polling
+        - $ref: '#/components/parameters/event_subscription_id'
+        - $ref: '#/components/parameters/from_event_date_time'
       responses:
         '200':
           description: List of event notifications.
