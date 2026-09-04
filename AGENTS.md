@@ -1,13 +1,13 @@
 # AI Agent Instructions
 
 ## General overview and information
-- Stream/topic: `<<FILL IN: e.g. payment, mortgage, card, pension, wealth>>`  
+- SFTI Common API Stream/topic: `<<FILL IN: e.g. payment, mortgage, card, pension, wealth>>`  
 - Repo: `swissfintechinnovations/ca-<<FILL IN: topic>>` · OpenAPI version: `<<FILL IN: 3.0 or 3.1>>`  
 - Bundled spec at repo root: `<<FILL IN: topic>>API.yaml`  
-- Repo with config files, reusable workflows, and wiki: `swissfintechinnovations/.github`  
+- Repo with config files, reusable workflows, and wiki: `github.com/swissfintechinnovations/.github`  
 
 ## What you are allowed to edit
-- **Edit only** the split source components under `src/components/{schemas,parameters,headers,responses,...}`.
+- **Edit only** the canonical source components under `src/components/{schemas,parameters,headers,responses,...}`.
 - **Do not touch** the bundled root file — it is generated from `src/*` by the Redocly bundle workflow on PR. Editing it directly will be overwritten.
 - **Do not touch** anything in `.github/` or the reusable workflows in `swissfintechinnovations/.github`.
 
@@ -41,7 +41,7 @@ The full rules are defined in the `swissfintechinnovations/.github` wiki. The fo
 - Reuse existing domain vocabulary already present in the repository.
 - Add meaningful descriptions and examples for all public models and fields.
 
-## Schema Design Guidelines
+## Schema design guidelines
 - Preserve backward compatibility whenever possible. Do not introduce breaking API changes without explicit versioning discussion.
 - Keep schemas reusable and avoid duplication.
 
@@ -51,7 +51,7 @@ The full rules are defined in the `swissfintechinnovations/.github` wiki. The fo
     - Naming Conventions: [wiki page](https://github.com/swissfintechinnovations/.github/wiki/Naming-Conventions)
 - Responses still include standard `400/500` responses and headers as applicable.
 - `$ref` paths are correct for the file layout and remain valid after bundling (run the bundle command locally or via CI workflow to confirm).
-    - bundle command:  `npx @redocly/cli bundle --config .github/redocly.yaml`
+    - bundle command: `npx @redocly/cli bundle --config .github/redocly.yaml`
     - workflow: `SFTI Bundle`
 - perform linter checks locally or via CI workflow and fix all errors and warnings
     - lint commands: `npx @redocly/cli lint --config=github/.github/redocly.yaml <<topic>>API.yaml`, `yamllint -d "{extends: github/.github/.yamllint, rules: {line-length: {max: 170}}}" -f github "<<file>>"`, `yamllint -c github/.github/.yamllint -f github "<<file>>"`
