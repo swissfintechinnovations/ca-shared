@@ -2,14 +2,15 @@
 
 ## General overview and information
 - Stream/topic: `<<FILL IN: e.g. payment, mortgage, card, pension, wealth>>`  
-- Repo: `swissfintechinnovations/ca-<<FILL IN: topic>>` · OpenAPI version: `<<FILL IN: 3.0 or 3.1>>`  
+- Repo: `swissfintechinnovations/ca-<<FILL IN: topic>>`
+- OpenAPI version: `<<FILL IN: 3.0 or 3.1>>`  
 - Bundled spec at repo root: `<<FILL IN: topic>>API.yaml`  
-- Repo with config files, reusable workflows, and wiki: `swissfintechinnovations/.github`  
+- Read-only repo with config files, reusable workflows, and wiki: `swissfintechinnovations/.github`  
 
 ## What you are allowed to edit
 - **Edit only** the split source components under `src/components/{schemas,parameters,headers,responses,...}`.
 - **Do not touch** the bundled root file — it is generated from `src/*` by the Redocly bundle workflow on PR. Editing it directly will be overwritten.
-- **Do not touch** anything in `.github/` or the reusable workflows in `swissfintechinnovations/.github`.
+- **Do not touch** anything in the `.github/` folder or the reusable workflows in the `github.com/swissfintechinnovations/.github` repo.
 
 ## Editing rules and patterns
 - Only do small, focused changes, not large refactors.
