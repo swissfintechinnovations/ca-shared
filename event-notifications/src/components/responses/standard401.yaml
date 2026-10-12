@@ -1,6 +1,6 @@
 headers:
-  Correlation-Id:
-    $ref: ../headers/Correlation-Id.yaml
+  X-Correlation-ID:
+    $ref: ../headers/X-Correlation-ID.yaml
 description: |
   Unauthorized - Either no token or an invalid (e.g., token expired) token
   was received.
