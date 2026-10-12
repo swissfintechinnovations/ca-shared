@@ -38,15 +38,15 @@ paths:
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/correlation_id'
+        - $ref: '#/components/parameters/correlation'
       responses:
         '200':
           description: List of event subscriptions.
           headers:
-            Correlation-Id:
-              $ref: '#/components/headers/Correlation-Id'
-            Next-Cursor:
-              $ref: '#/components/headers/Next-Cursor'
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+            X-Next-Cursor:
+              $ref: '#/components/headers/X-Next-Cursor'
           content:
             application/json:
               schema:
@@ -78,7 +78,7 @@ paths:
       description: Create event subscription.
       operationId: createEventSubscription
       parameters:
-        - $ref: '#/components/parameters/correlation_id'
+        - $ref: '#/components/parameters/correlation'
       requestBody:
         content:
           application/json:
@@ -88,8 +88,8 @@ paths:
         '201':
           description: Event subscription created.
           headers:
-            Correlation-Id:
-              $ref: '#/components/headers/Correlation-Id'
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
           content:
             application/json:
               schema:
@@ -123,13 +123,13 @@ paths:
       operationId: getEventSubscription
       parameters:
         - $ref: '#/components/parameters/event_subscription_id'
-        - $ref: '#/components/parameters/correlation_id'
+        - $ref: '#/components/parameters/correlation'
       responses:
         '200':
           description: Get event subscriptions.
           headers:
-            Correlation-Id:
-              $ref: '#/components/headers/Correlation-Id'
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
           content:
             application/json:
               schema:
@@ -160,7 +160,7 @@ paths:
       operationId: updateEventSubscription
       parameters:
         - $ref: '#/components/parameters/event_subscription_id'
-        - $ref: '#/components/parameters/correlation_id'
+        - $ref: '#/components/parameters/correlation'
       requestBody:
         content:
           application/json:
@@ -175,8 +175,8 @@ paths:
         '204':
           description: Successfully updated (empty response).
           headers:
-            Correlation-Id:
-              $ref: '#/components/headers/Correlation-Id'
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -203,13 +203,13 @@ paths:
       operationId: deleteEventSubscription
       parameters:
         - $ref: '#/components/parameters/event_subscription_id'
-        - $ref: '#/components/parameters/correlation_id'
+        - $ref: '#/components/parameters/correlation'
       responses:
         '204':
           description: Successfully deleted.
           headers:
-            Correlation-Id:
-              $ref: '#/components/headers/Correlation-Id'
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -236,17 +236,17 @@ paths:
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/correlation_id'
+        - $ref: '#/components/parameters/correlation'
         - $ref: '#/components/parameters/event_subscription_id'
         - $ref: '#/components/parameters/from_event_date_time'
       responses:
         '200':
           description: List of event notifications.
           headers:
-            Correlation-Id:
-              $ref: '#/components/headers/Correlation-Id'
-            Next-Cursor:
-              $ref: '#/components/headers/Next-Cursor'
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+            X-Next-Cursor:
+              $ref: '#/components/headers/X-Next-Cursor'
           content:
             application/json:
               schema:
@@ -369,8 +369,8 @@ components:
   responses:
     standard400:
       headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
       description: Bad Request - The format of the request was invalid.
       content:
         application/problem+json:
@@ -383,8 +383,8 @@ components:
             instance: path/to/corresponding/resource
     standard401:
       headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
       description: |
         Unauthorized - Either no token or an invalid (e.g., token expired) token
         was received.
@@ -399,8 +399,8 @@ components:
             instance: path/to/corresponding/resource
     standard403:
       headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
       description: |
         Forbidden - A valid OAuth Token was received, but access was denied.
         (Depending on the security requirements, providers can return 404 instead).
@@ -415,8 +415,8 @@ components:
             instance: path/to/corresponding/resource
     standard404:
       headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
       description: |
         Not Found - Either the endpoint does not exist or a requested resource is not available.
       content:
@@ -430,8 +430,8 @@ components:
             instance: path/to/corresponding/resource
     standard405:
       headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
       description: |
         Method Not Allowed - The request method is known by the server but is
         not supported by the target resource.
@@ -446,8 +446,8 @@ components:
             instance: path/to/corresponding/resource
     standard409:
       headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
       description: |
         there was a conflict when creating the subscription. e.g., it already
         exists for the same api and version.
@@ -462,8 +462,8 @@ components:
             instance: path/to/corresponding/resource
     standard429:
       headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
       description: |
         When an SU sends too many lookup or polling requests in a given amount
         of time the SP shall respond with HTTP 429 (Too many requests).
@@ -481,8 +481,8 @@ components:
             instance: path/to/corresponding/resource
     standard500:
       headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
       description: Internal Server Error.
       content:
         application/problem+json:
@@ -495,8 +495,8 @@ components:
             instance: path/to/corresponding/resource
     standard501:
       headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
       description: |
         Not Implemented - The request method is not supported by the server and
         cannot be handled.
@@ -511,8 +511,8 @@ components:
             instance: path/to/corresponding/resource
     standard503:
       headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
       description: Service Unavailable.
       content:
         application/problem+json:
@@ -525,8 +525,8 @@ components:
             instance: path/to/corresponding/resource
     standard504:
       headers:
-        Correlation-Id:
-          $ref: '#/components/headers/Correlation-Id'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
       description: Gateway Timeout.
       content:
         application/problem+json:
@@ -538,9 +538,9 @@ components:
             detail: ..
             instance: path/to/corresponding/resource
   parameters:
-    correlation_id:
+    correlation:
       in: header
-      name: Correlation-Id
+      name: X-Correlation-ID
       description: |
         Unique ID (defined by the caller) which will be reflected back in the response.
       required: true
@@ -584,7 +584,7 @@ components:
         format: int32
         minimum: 1
   headers:
-    Correlation-Id:
+    X-Correlation-ID:
       description: |
         Client defined ID from request to correlate HTTP requests between a
         client and a server
@@ -592,7 +592,7 @@ components:
         type: string
         maxLength: 64
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5
-    Next-Cursor:
+    X-Next-Cursor:
       description: An opaque string value, or an empty string if there are no more results.
       required: false
       schema:

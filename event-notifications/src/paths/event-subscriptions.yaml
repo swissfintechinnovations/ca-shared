@@ -14,8 +14,8 @@ get:
       headers:
         X-Correlation-ID:
           $ref: ../components/headers/X-Correlation-ID.yaml
-        Next-Cursor:
-          $ref: ../components/headers/Next-Cursor.yaml
+        X-Next-Cursor:
+          $ref: ../components/headers/X-Next-Cursor.yaml
       content:
         application/json:
           schema:
