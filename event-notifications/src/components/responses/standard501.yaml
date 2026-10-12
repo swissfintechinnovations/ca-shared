@@ -1,6 +1,6 @@
 headers:
-  Correlation-Id:
-    $ref: ../headers/Correlation-Id.yaml
+  X-Correlation-ID:
+    $ref: ../headers/X-Correlation-ID.yaml
 description: |
   Not Implemented - The request method is not supported by the server and
   cannot be handled.

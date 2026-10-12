@@ -5,7 +5,7 @@ post:
   description: Send notification to consumer.
   operationId: sendEventNotification
   parameters:
-    - $ref: ../components/parameters/correlation_id.yaml
+    - $ref: ../components/parameters/header/correlation.yaml
   requestBody:
     content:
       application/json:
@@ -15,8 +15,8 @@ post:
     '202':
       description: Event notification accepted.
       headers:
-        Correlation-Id:
-          $ref: ../components/headers/Correlation-Id.yaml
+        X-Correlation-ID:
+          $ref: ../components/headers/X-Correlation-ID.yaml
     '400':
       $ref: ../components/responses/standard400.yaml
     '404':

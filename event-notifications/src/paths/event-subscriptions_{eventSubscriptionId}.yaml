@@ -6,13 +6,13 @@ get:
   operationId: getEventSubscription
   parameters:
     - $ref: ../components/parameters/event_subscription_id.yaml
-    - $ref: ../components/parameters/correlation_id.yaml
+    - $ref: ../components/parameters/header/correlation.yaml
   responses:
     '200':
       description: Get event subscriptions.
       headers:
-        Correlation-Id:
-          $ref: ../components/headers/Correlation-Id.yaml
+        X-Correlation-ID:
+          $ref: ../components/headers/X-Correlation-ID.yaml
       content:
         application/json:
           schema:
@@ -43,7 +43,7 @@ put:
   operationId: updateEventSubscription
   parameters:
     - $ref: ../components/parameters/event_subscription_id.yaml
-    - $ref: ../components/parameters/correlation_id.yaml
+    - $ref: ../components/parameters/header/correlation.yaml
   requestBody:
     content:
       application/json:
@@ -58,8 +58,8 @@ put:
     '204':
       description: Successfully updated (empty response).
       headers:
-        Correlation-Id:
-          $ref: ../components/headers/Correlation-Id.yaml
+        X-Correlation-ID:
+          $ref: ../components/headers/X-Correlation-ID.yaml
     '400':
       $ref: ../components/responses/standard400.yaml
     '401':
@@ -86,13 +86,13 @@ delete:
   operationId: deleteEventSubscription
   parameters:
     - $ref: ../components/parameters/event_subscription_id.yaml
-    - $ref: ../components/parameters/correlation_id.yaml
+    - $ref: ../components/parameters/header/correlation.yaml
   responses:
     '204':
       description: Successfully deleted.
       headers:
-        Correlation-Id:
-          $ref: ../components/headers/Correlation-Id.yaml
+        X-Correlation-ID:
+          $ref: ../components/headers/X-Correlation-ID.yaml
     '400':
       $ref: ../components/responses/standard400.yaml
     '401':

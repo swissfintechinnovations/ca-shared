@@ -1,6 +1,6 @@
 headers:
-  Correlation-Id:
-    $ref: ../headers/Correlation-Id.yaml
+  X-Correlation-ID:
+    $ref: ../headers/X-Correlation-ID.yaml
 description: |
   When an SU sends too many lookup or polling requests in a given amount
   of time the SP shall respond with HTTP 429 (Too many requests).

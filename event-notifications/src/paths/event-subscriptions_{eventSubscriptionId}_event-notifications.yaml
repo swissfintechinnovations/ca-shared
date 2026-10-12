@@ -7,15 +7,15 @@ get:
   parameters:
     - $ref: ../components/parameters/cursor.yaml
     - $ref: ../components/parameters/limit.yaml
-    - $ref: ../components/parameters/correlation_id.yaml
+    - $ref: ../components/parameters/header/correlation.yaml
     - $ref: ../components/parameters/event_subscription_id.yaml
     - $ref: ../components/parameters/from_event_date_time.yaml
   responses:
     '200':
       description: List of event notifications.
       headers:
-        Correlation-Id:
-          $ref: ../components/headers/Correlation-Id.yaml
+        X-Correlation-ID:
+          $ref: ../components/headers/X-Correlation-ID.yaml
         Next-Cursor:
           $ref: ../components/headers/Next-Cursor.yaml
       content:
